@@ -141,7 +141,7 @@ export default function Home() {
               <motion.img
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 1.5 }}
-                src="https://unsplash.com"
+                src="/17-1.png"
                 className="w-full h-full object-cover transition-all duration-1000"
               />
               {/* High-End Labeling */}
@@ -160,7 +160,7 @@ export default function Home() {
             >
               <div className="absolute inset-0 border border-[#D4AF77]/20 z-10 group-hover:border-[#D4AF77] transition-colors" />
               <img
-                src="https://unsplash.com"
+                src="/black-shirt.png"
                 className="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 transition-all duration-1000"
               />
               <div className="absolute -bottom-6 -left-6 bg-white px-4 py-2 shadow-sm italic font-serif text-[10px] text-[#D4AF77]">

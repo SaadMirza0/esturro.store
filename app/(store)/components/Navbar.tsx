@@ -28,26 +28,31 @@ const SignatureNav = () => {
     <header className="fixed top-0 w-full z-[100] px-4 md:px-10 py-6 pointer-events-none">
       <div className="max-w-[1800px] mx-auto flex justify-between items-center pointer-events-auto">
 
-        {/* --- 1. THE LOGO PLATE (Ultra Visibility) --- */}
-        <Link href="/" className="group relative z-[110]">
+        {/* --- 1. THE LOGO (Refined for Maximum Clarity) --- */}
+        <Link href="/" className="group relative z-[110] flex items-center">
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            className="bg-[#1C1C19] p-4 md:p-6 shadow-2xl transition-transform duration-700 group-hover:scale-105"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="relative flex items-center justify-center"
           >
             <img
-              src="https://unsplash.com" // INSERT YOUR LOGO FROM FILE HERE
-              alt="Esturro Monogram"
-              className="h-8 md:h-12 w-auto invert brightness-200" // Forces high visibility on dark
+              src="/logo.png"
+              alt="Esturro"
+              className="h-20 md:h-30 lg:h-40 w-auto object-contain transition-transform duration-700 group-hover:scale-105 will-change-transform"
+            />
+            <motion.div
+              className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#D4AF77] transition-all duration-500 group-hover:w-full"
             />
           </motion.div>
         </Link>
 
-        {/* --- 2. FLOATING NAV MODULE (Desktop) --- */}
+
+        {/* --- 2. FLOATING NAV MODULE --- */}
         <motion.nav
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className={`hidden lg:flex items-center gap-1 bg-[#1C1C19]/90 backdrop-blur-2xl px-2 py-2 shadow-2xl border border-white/10 transition-all duration-500 ${scrolled ? 'translate-y-0' : 'translate-y-2'}`}
+          className={`hidden lg:flex items-center gap-1 bg-[#1C1C19]/95 backdrop-blur-3xl px-2 py-2 shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10 transition-all duration-500 ${scrolled ? 'translate-y-0' : 'translate-y-2'}`}
         >
           {navLinks.map((link) => (
             <Link
@@ -64,14 +69,14 @@ const SignatureNav = () => {
           </button>
         </motion.nav>
 
-        {/* --- 3. MOBILE ACTION HUB --- */}
+        {/* --- 3. MOBILE HUB --- */}
         <div className="flex items-center gap-4 lg:hidden">
-          <button className="w-12 h-12 bg-[#1C1C19] text-white flex items-center justify-center shadow-xl">
+          <button className="w-12 h-12 bg-[#1C1C19] text-white flex items-center justify-center shadow-2xl border border-white/5">
             <span className="material-symbols-outlined text-xl">shopping_bag</span>
           </button>
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="w-12 h-12 bg-[#D4AF77] text-[#1C1C19] flex items-center justify-center shadow-xl active:scale-90 transition-transform"
+            className="w-12 h-12 bg-[#D4AF77] text-[#1C1C19] flex items-center justify-center shadow-2xl active:scale-90 transition-transform"
           >
             <span className="material-symbols-outlined font-bold">
               {isMobileMenuOpen ? 'close' : 'menu'}
@@ -79,6 +84,7 @@ const SignatureNav = () => {
           </button>
         </div>
       </div>
+
 
       {/* --- 4. FULL-SCREEN MOBILE ATELIER --- */}
       <AnimatePresence>
