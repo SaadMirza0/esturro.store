@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next"
 import { Manrope, Newsreader } from 'next/font/google';
 import "./globals.css";
 import TopSticky from "../(store)/components/TopSticky";
@@ -32,7 +33,7 @@ export default function RootLayout({
 
       <body className="min-h-full bg-[#FCF9F4] antialiased flex flex-col">
 
-
+        <Analytics />
         <Navbar />
         <TopSticky />
         {children}

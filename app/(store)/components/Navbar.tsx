@@ -9,7 +9,7 @@ const SignatureNav = () => {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
-  // Close menu on route change & handle scroll
+  // Close menu on route change 
   useEffect(() => {
     setIsMobileMenuOpen(false);
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -28,7 +28,6 @@ const SignatureNav = () => {
     <header className="fixed top-0 w-full z-[100] px-4 md:px-10 py-6 pointer-events-none">
       <div className="max-w-[1800px] mx-auto flex justify-between items-center pointer-events-auto">
 
-        {/* --- 1. THE LOGO (Refined for Maximum Clarity) --- */}
         <Link href="/" className="group relative z-[110] flex items-center">
           <motion.div
             initial={{ x: -20, opacity: 0 }}
@@ -48,7 +47,7 @@ const SignatureNav = () => {
         </Link>
 
 
-        {/* --- 2. FLOATING NAV MODULE --- */}
+
         <motion.nav
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -64,9 +63,7 @@ const SignatureNav = () => {
             </Link>
           ))}
           <div className="w-[1px] h-4 bg-white/10 mx-4" />
-          <button className="px-6 text-white/40 hover:text-[#D4AF77] transition-colors">
-            <span className="material-symbols-outlined text-xl">search</span>
-          </button>
+
         </motion.nav>
 
         {/* --- 3. MOBILE HUB --- */}
