@@ -87,7 +87,7 @@ const SignatureNav = () => {
             initial={{ clipPath: 'circle(0% at 90% 5%)' }}
             animate={{ clipPath: 'circle(150% at 90% 5%)' }}
             exit={{ clipPath: 'circle(0% at 90% 5%)' }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
             className="fixed inset-0 bg-[#1C1C19] z-[105] flex flex-col p-10 justify-between pointer-events-auto"
           >
             <div className="mt-32 space-y-8">

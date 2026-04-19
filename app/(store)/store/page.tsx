@@ -56,7 +56,7 @@ export default function Store() {
             <motion.h1
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
               className="text-6xl md:text-8xl font-serif leading-[0.9] text-[#1C1C19] mb-8"
             >
               Shop All <br />
@@ -185,7 +185,7 @@ export default function Store() {
                   transition={{
                     duration: 1.2,
                     delay: (index % 3) * 0.15,
-                    ease: [0.215, 0.61, 0.355, 1]
+                    ease: [0.215, 0.61, 0.355, 1] as const
                   }}
                   className={`group relative flex flex-col ${isOffset ? 'lg:translate-y-20' : ''}`}
                 >
