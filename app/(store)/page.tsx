@@ -57,7 +57,7 @@ export default function Home() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.2, 0, 0.2, 1] }
+      transition: { duration: 0.8, ease: [0.2, 0, 0.2, 1] as const }
     },
   };
   const containerRef = useRef(null);
@@ -91,7 +91,7 @@ export default function Home() {
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.2, 0, 0.2, 1] }}
+            transition={{ duration: 1, ease: [0.2, 0, 0.2, 1] as const }}
             className="text-[#1C1C19] text-6xl md:text-8xl lg:text-[120px] font-serif leading-[0.85] tracking-[-0.04em] mb-10"
           >
             The Shirt <br />
@@ -230,14 +230,14 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
+              transition={{ duration: 0.8, delay: index * 0.2, ease: [0.2, 0, 0.2, 1] as const }}
               className={`group relative flex flex-col ${index % 3 === 1 ? 'lg:mt-20' : ''}`}
             >
               {/* Image Container */}
               <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-[0_20px_40px_rgba(28,28,25,0.03)]">
                 <motion.img
                   whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 1.2, ease: [0.2, 0, 0.2, 1] }}
+                  transition={{ duration: 1.2, ease: [0.2, 0, 0.2, 1] as const }}
                   className="w-full h-full object-cover"
                   src={product.image_url?.toLowerCase().endsWith(".pdf")
                     ? product.image_url.replace(".pdf", ".jpg")
@@ -292,7 +292,7 @@ export default function Home() {
                 transition={{
                   duration: 0.8,
                   delay: index * 0.2,
-                  ease: [0.2, 0, 0.2, 1]
+                  ease: [0.2, 0, 0.2, 1] as const
                 }}
                 className="group flex flex-col items-start"
               >
