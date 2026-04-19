@@ -30,10 +30,11 @@ export default function RootLayout({
       className={`${manrope.variable} ${newsreader.variable} h-full antialiased`}
     >
 
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full bg-[#FCF9F4] antialiased flex flex-col">
 
-        <TopSticky />
+
         <Navbar />
+        <TopSticky />
         {children}
         <Footer />
       </body>

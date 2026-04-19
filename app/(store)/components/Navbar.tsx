@@ -1,10 +1,21 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const SignatureNav = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  // Close menu on route change & handle scroll
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [pathname]);
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -14,99 +25,100 @@ const SignatureNav = () => {
   ];
 
   return (
-    <motion.nav
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 w-full z-[100] px-6 md:px-16 py-5 bg-[#1C1C19]/90 backdrop-blur-xl border-b border-white/[0.03]"
-    >
-      <div className="max-w-[1800px] mx-auto flex justify-between items-center">
+    <header className="fixed top-0 w-full z-[100] px-4 md:px-10 py-6 pointer-events-none">
+      <div className="max-w-[1800px] mx-auto flex justify-between items-center pointer-events-auto">
 
-        {/* --- LEFT: LOGO (High Visibility) --- */}
-        <div className="flex-1 flex justify-start">
-          <Link href="/" className="relative h-12 w-32 transition-transform duration-500 hover:scale-105 active:scale-95">
+        {/* --- 1. THE LOGO PLATE (Ultra Visibility) --- */}
+        <Link href="/" className="group relative z-[110]">
+          <motion.div
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            className="bg-[#1C1C19] p-4 md:p-6 shadow-2xl transition-transform duration-700 group-hover:scale-105"
+          >
             <img
-              src="https://unsplash.com" // Use your logo from the PDF here
-              alt="Esturro Atelier"
-              className="w-full h-full object-contain object-left brightness-0 invert"
+              src="https://unsplash.com" // INSERT YOUR LOGO FROM FILE HERE
+              alt="Esturro Monogram"
+              className="h-8 md:h-12 w-auto invert brightness-200" // Forces high visibility on dark
             />
-          </Link>
-        </div>
+          </motion.div>
+        </Link>
 
-        {/* --- CENTER: NAVIGATION (The Modern Atelier Voice) --- */}
-        <div className="hidden lg:flex items-center gap-14">
+        {/* --- 2. FLOATING NAV MODULE (Desktop) --- */}
+        <motion.nav
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className={`hidden lg:flex items-center gap-1 bg-[#1C1C19]/90 backdrop-blur-2xl px-2 py-2 shadow-2xl border border-white/10 transition-all duration-500 ${scrolled ? 'translate-y-0' : 'translate-y-2'}`}
+        >
           {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
-              className="text-[10px] tracking-[0.4em] uppercase font-bold text-[#FCF9F4]/70 hover:text-[#D4AF77] transition-all relative group"
+              className={`px-8 py-3 text-[10px] tracking-[0.4em] uppercase font-bold transition-all duration-500 hover:text-[#D4AF77] ${pathname === link.href ? 'text-[#D4AF77] bg-white/5' : 'text-white/60'}`}
             >
               {link.name}
-              {/* Architectural Underline */}
-              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-[#D4AF77] transition-all duration-500 group-hover:w-full" />
             </Link>
           ))}
-        </div>
-
-        {/* --- RIGHT: UTILITY (Search) --- */}
-        <div className="flex-1 flex justify-end items-center gap-8">
-          <button className="group flex items-center gap-3 text-[#FCF9F4]/70 hover:text-[#D4AF77] transition-all">
-            <span className="text-[10px] tracking-[0.3em] uppercase font-bold hidden md:block">Search</span>
-            <span className="material-symbols-outlined text-[20px] font-light">search</span>
+          <div className="w-[1px] h-4 bg-white/10 mx-4" />
+          <button className="px-6 text-white/40 hover:text-[#D4AF77] transition-colors">
+            <span className="material-symbols-outlined text-xl">search</span>
           </button>
+        </motion.nav>
 
-          {/* MOBILE TOGGLE */}
+        {/* --- 3. MOBILE ACTION HUB --- */}
+        <div className="flex items-center gap-4 lg:hidden">
+          <button className="w-12 h-12 bg-[#1C1C19] text-white flex items-center justify-center shadow-xl">
+            <span className="material-symbols-outlined text-xl">shopping_bag</span>
+          </button>
           <button
-            className="lg:hidden text-[#FCF9F4]"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="w-12 h-12 bg-[#D4AF77] text-[#1C1C19] flex items-center justify-center shadow-xl active:scale-90 transition-transform"
           >
-            <div className="space-y-1.5">
-              <motion.span
-                animate={isMobileMenuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
-                className="block w-6 h-[1px] bg-current"
-              />
-              <motion.span
-                animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="block w-6 h-[1px] bg-current"
-              />
-              <motion.span
-                animate={isMobileMenuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
-                className="block w-6 h-[1px] bg-current"
-              />
-            </div>
+            <span className="material-symbols-outlined font-bold">
+              {isMobileMenuOpen ? 'close' : 'menu'}
+            </span>
           </button>
         </div>
       </div>
 
-      {/* --- MOBILE FULLSCREEN OVERLAY --- */}
+      {/* --- 4. FULL-SCREEN MOBILE ATELIER --- */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-[#1C1C19] z-[-1] flex flex-col items-center justify-center gap-12"
+            initial={{ clipPath: 'circle(0% at 90% 5%)' }}
+            animate={{ clipPath: 'circle(150% at 90% 5%)' }}
+            exit={{ clipPath: 'circle(0% at 90% 5%)' }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 bg-[#1C1C19] z-[105] flex flex-col p-10 justify-between pointer-events-auto"
           >
-            {navLinks.map((link, i) => (
-              <motion.div
-                key={link.name}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <Link
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-[#FCF9F4] text-5xl font-serif italic hover:text-[#D4AF77] transition-colors"
+            <div className="mt-32 space-y-8">
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.name}
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.3 + i * 0.1 }}
                 >
-                  {link.name}
-                </Link>
-              </motion.div>
-            ))}
+                  <Link
+                    href={link.href}
+                    className="text-6xl font-serif italic text-white hover:text-[#D4AF77] transition-colors block"
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="border-t border-white/10 pt-10 flex justify-between items-end">
+              <div className="space-y-2">
+                <p className="text-[10px] tracking-[0.4em] uppercase text-[#D4AF77] font-bold">Esturro Archive</p>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-white/20">Pakistan's Modern Atelier</p>
+              </div>
+              <span className="text-8xl font-serif text-white/5 select-none">E</span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </header>
   );
 };
 

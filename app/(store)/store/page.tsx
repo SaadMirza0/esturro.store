@@ -37,57 +37,84 @@ export default function Store() {
     <main className="bg-[#FCF9F4] min-h-screen pt-48 pb-32 px-6 md:px-12 lg:px-24">
 
       {/* --- 1. THE EDITORIAL ENTRANCE (WELCOMING SECTION) --- */}
-      <section className="max-w-[1400px] mx-auto mb-32 relative">
-        <div className="flex flex-col lg:flex-row items-start justify-between gap-16">
-          <div className="max-w-3xl">
-            {/* Animated Micro-Label */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="flex items-center gap-4 mb-8"
-            >
-              <div className="h-[1px] w-12 bg-[#D4AF77]"></div>
-              <span className="text-[#D4AF77] text-[10px] tracking-[0.6em] uppercase font-bold">Curated Atelier</span>
-            </motion.div>
+      <section className="max-w-[1400px] mx-auto mb-20 pt-10 px-4">
+        {/* --- MINIMALIST BREADCRUMB --- */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="flex items-center gap-4 mb-16"
+        >
+          <span className="text-[9px] tracking-[0.4em] uppercase text-[#1C1C19]/30 font-bold">  Archive</span>
+          <div className="h-[1px] w-8 bg-[#D4AF77]/40" />
+          <span className="text-[9px] tracking-[0.4em] uppercase text-[#D4AF77] font-bold">Vol. 01 — SS26</span>
+        </motion.div>
 
-            {/* High-Impact Headline */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+          {/* --- LEFT: COMPACT IDENTITY (7 Columns) --- */}
+          <div className="lg:col-span-7">
             <motion.h1
-              initial={{ y: 40, opacity: 0 }}
+              initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[#1C1C19] text-7xl md:text-[130px] font-serif leading-[0.8] tracking-tight mb-12"
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="text-6xl md:text-8xl font-serif leading-[0.9] text-[#1C1C19] mb-8"
             >
-              Master <br />
-              <span className="italic font-light text-[#D4AF77] ml-0 md:ml-20">Tailoring.</span>
+              Shop All <br />
+              <span className="italic font-light text-[#D4AF77]">Shirts for Mens.</span>
             </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
-              className="text-[#1C1C19]/50 font-sans text-lg md:text-xl max-w-md leading-relaxed border-l border-[#1C1C19]/10 pl-8"
-            >
-              Explore our comprehensive archive of architectural silhouettes. Each piece is a testament to intentional design.
-            </motion.p>
+            <div className="flex items-center gap-8">
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="text-[#1C1C19]/40 font-sans text-sm md:text-base max-w-xs leading-relaxed"
+              >
+                Architectural precision in every stitch. Sourced from the finest global mills.
+              </motion.p>
+
+              {/* Integrated Counter */}
+              <div className="h-16 w-[1px] bg-[#1C1C19]/10" />
+              <div className="flex flex-col">
+                <span className="text-3xl font-serif text-[#1C1C19]">{products.length}</span>
+                <span className="text-[8px] tracking-[0.3em] uppercase text-[#1C1C19]/30 font-bold">Pieces</span>
+              </div>
+            </div>
           </div>
 
-          {/* Abstract Floating Counter */}
+          {/* --- RIGHT: ARCHIVE TEASER (5 Columns) --- */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="hidden lg:flex flex-col items-center justify-center border border-[#1C1C19]/5 p-12 rounded-full aspect-square"
+            transition={{ delay: 0.2, duration: 1 }}
+            className="lg:col-span-5 relative group"
           >
-            <span className="text-[10px] tracking-[0.4em] uppercase text-[#1C1C19]/30 mb-2">In Archive</span>
-            <span className="text-6xl font-serif text-[#1C1C19]">{products.length}</span>
+            <div className="relative aspect-[16/7] bg-white overflow-hidden shadow-[0_30px_60px_rgba(28,28,25,0.04)]">
+              {/* This image acts as a "preview" of the craftsmanship */}
+              <img
+                src="https://unsplash.com"
+                alt="Fabric Preview"
+                className="w-full h-full object-cover grayscale opacity-50 group-hover:scale-110 transition-transform duration-[2s]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent" />
+
+              {/* Ghost Border */}
+              <div className="absolute inset-0 border border-[#1C1C19]/5 pointer-events-none" />
+
+              <div className="absolute bottom-6 left-8">
+                <p className="text-[9px] tracking-[0.5em] uppercase text-[#1C1C19]/60 font-bold">Technical Spec: 100% Pima</p>
+              </div>
+            </div>
           </motion.div>
+
         </div>
       </section>
 
+
       {/* --- 2. ARCHITECTURAL FILTER BAR (REFINED) --- */}
       <section className="max-w-[1400px] mx-auto mb-20 sticky top-24 z-40">
-        <div className="bg-white/80 backdrop-blur-md shadow-[0_30px_60px_rgba(28,28,25,0.03)] px-10 py-8 flex flex-col xl:flex-row justify-between items-center gap-12">
 
+        <div className="bg-white/80 backdrop-blur-md shadow-[0_30px_60px_rgba(28,28,25,0.03)] px-10 py-8 flex flex-col xl:flex-row justify-between items-center gap-12">
           {/* Style Filter */}
           <div className="flex flex-col md:flex-row items-center gap-8">
             <span className="text-[9px] tracking-[0.4em] uppercase font-bold text-[#1C1C19]/30">Visual Style</span>

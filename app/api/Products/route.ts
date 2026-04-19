@@ -8,6 +8,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const style = searchParams.get("style");
     const size = searchParams.get("size");
+    const limit = searchParams.get("limit");
 
     let query = "SELECT * FROM shirts WHERE 1=1";
     const values: any[] = [];
@@ -24,6 +25,10 @@ export async function GET(request: Request) {
 
     query += " ORDER BY created_at DESC";
 
+    if (limit && !isNaN(Number(limit))) {
+      query += ` LIMIT ${Number(limit)}`;
+    }
+
     // 1. Execute the query with values
     const result = await sql.query(query, values);
 
@@ -31,7 +36,7 @@ export async function GET(request: Request) {
 
     // 2. IMPORTANT: Return the WHOLE 'result' object to match your working version
     return NextResponse.json(result, { status: 200 });
-    
+
   } catch (error) {
     console.error("Database error:", error);
     return NextResponse.json([], { status: 500 });
