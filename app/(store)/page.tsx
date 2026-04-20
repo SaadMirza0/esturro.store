@@ -13,8 +13,6 @@ export default function Home() {
         const res = await fetch("/api/Products?limit=6", { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
-          // Assuming API returns the result object or directly the rows array
-          // In api/Products/route.ts, it returns 'result' from neon, which is an array of rows
           setProducts(Array.isArray(data) ? data : []);
         }
       } catch (error) {
@@ -45,7 +43,6 @@ export default function Home() {
   ];
   const containerRef = useRef(null);
 
-  // Scroll Parallax for the images
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -54,7 +51,6 @@ export default function Home() {
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
 
-  // Animation Variants
   const containerVars = {
     hidden: { opacity: 0 },
     visible: {
@@ -74,7 +70,7 @@ export default function Home() {
 
   return (
     <main className="bg-[#FCF9F4] min-h-screen selection:bg-[#D4AF77]/30">
-      {/* HERO SECTION */}
+  {/*hero section*/}
       <section
         ref={containerRef}
         className="relative min-h-screen w-full flex flex-col lg:flex-row items-center pt-32 lg:pt-0 overflow-hidden"
@@ -360,6 +356,13 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ delay: 0.6 }}
           >
+          
+          <a 
+  href="https://wa.me/923010544620" 
+  target="_blank" 
+  rel="noopener noreferrer"
+  className="block w-fit mx-auto"
+>
             <button className="group relative bg-gradient-to-r from-[#76592A] to-[#D4AF77] text-white px-12 py-7 text-[10px] tracking-[0.3em] uppercase font-bold 0px transition-all duration-500 hover:shadow-[0_0_40px_rgba(212,175,119,0.3)] flex items-center gap-6 mx-auto overflow-hidden">
               <span className="relative z-10 flex items-center gap-4">
                 Contact on WhatsApp
@@ -370,6 +373,7 @@ export default function Home() {
               {/* Glass effect on hover */}
               <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
             </button>
+            </a>
           </motion.div>
         </div>
 

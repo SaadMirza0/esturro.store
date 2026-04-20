@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useSearchParams } from 'next/navigation'
 import { motion } from "framer-motion"
+import { useRouter } from 'next/navigation'; 
 
 export default function CheckoutContent() {
   const searchParams = useSearchParams();
@@ -15,7 +16,7 @@ export default function CheckoutContent() {
 
   const shippingFee: number = 0; // Free shipping for now, or you can change this
   const total = productPrice + shippingFee;
-
+const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -175,7 +176,10 @@ export default function CheckoutContent() {
             <div className="flex gap-10 items-start">
               {/* Image with High-Contrast Shadow */}
               <div className="w-36 h-48 bg-[#FCF9F4] overflow-hidden flex-shrink-0 shadow-[0_30px_60px_rgba(28,28,25,0.08)] border border-[#1C1C19]/5">
-                <img src={productImage} alt={productName} className="w-full h-full object-cover" />
+                <img  src={productImage?.toLowerCase().endsWith(".pdf") 
+    ? productImage.replace(".pdf", ".png") 
+    : productImage
+  }  alt={productName} className="w-full h-full object-cover" />
               </div>
 
               <div className="space-y-4 pt-2">

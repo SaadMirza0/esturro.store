@@ -5,7 +5,7 @@ import ProductClientPage from "../../components/ProductClientPage";
 export default async function ProductPage({ params }: { params: { id: string } }) {
     const { id } = await params;
 
-    // Fetch main product
+
     const productData = await sql`SELECT * FROM shirts WHERE id = ${id}`;
     const product = productData[0];
 
