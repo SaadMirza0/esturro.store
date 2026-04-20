@@ -116,8 +116,8 @@ export default function Orders() {
                                     <td className="px-6 py-5 font-serif italic text-base">₨{Number(order.total_amount).toLocaleString()}</td>
                                     <td className="px-6 py-5">
                                         <span className={`px-3 py-1 text-[8px] font-black uppercase tracking-widest border ${order.status === 'Pending' ? 'border-orange-200 text-orange-600 bg-orange-50/50' :
-                                                order.status === 'Failed' ? 'border-red-200 text-red-600 bg-red-50/50' :
-                                                    'border-green-100 text-green-700 bg-green-50/50'
+                                            order.status === 'Failed' ? 'border-red-200 text-red-600 bg-red-50/50' :
+                                                'border-green-100 text-green-700 bg-green-50/50'
                                             }`}>
                                             {order.status}
                                         </span>
@@ -152,8 +152,8 @@ export default function Orders() {
                                     <p className="text-[10px] text-[#1C1C19]/40 uppercase tracking-widest">{order.city}</p>
                                 </div>
                                 <span className={`px-3 py-1 text-[8px] font-black uppercase border ${order.status === 'Pending' ? 'border-orange-200 text-orange-600' :
-                                        order.status === 'Failed' ? 'border-red-200 text-red-600' :
-                                            'border-green-100 text-green-700'
+                                    order.status === 'Failed' ? 'border-red-200 text-red-600' :
+                                        'border-green-100 text-green-700'
                                     }`}>
                                     {order.status}
                                 </span>
@@ -182,7 +182,7 @@ export default function Orders() {
             {/* --- FOOTER STATS --- */}
             <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4 opacity-40">
                 <p className="text-[9px] tracking-[0.3em] uppercase font-bold">{orders.length} Entries in Manifest</p>
-            
+
             </div>
             {/* --- RECEIPT MODAL --- */}
             {selectedOrder && (

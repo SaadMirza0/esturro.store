@@ -7,7 +7,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    
+
     // Fetch order details by ID
     const order = await sql`
       SELECT * FROM orders 
@@ -35,7 +35,7 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await request.json();
-    
+
     // Fetch existing order to merge updates
     const existing = await sql`SELECT * FROM orders WHERE id = ${id} LIMIT 1`;
     if (!existing || existing.length === 0) {
