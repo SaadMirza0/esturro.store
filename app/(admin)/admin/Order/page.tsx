@@ -3,10 +3,26 @@ import { useEffect, useState } from "react";
 import { Edit2, Trash2, FileText, ChevronRight, Download, X } from "lucide-react";
 import ShippingReceipt from "../components/Recipt";
 
+interface Order {
+    id: string | number;
+    full_name: string;
+    email?: string;
+    phone: string;
+    city: string;
+    province?: string;
+    address?: string;
+    total_amount: string | number;
+    status: string;
+    created_at: string;
+    product_name?: string;
+    size?: string;
+    payment_method?: string;
+}
+
 export default function Orders() {
-    const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
-    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
     const fetchOrders = async () => {
         try {
@@ -25,7 +41,7 @@ export default function Orders() {
     }, []);
 
 
-    const handleStatusUpdate = async (id: string, currentStatus: string) => {
+    const handleStatusUpdate = async (id: string | number, currentStatus: string) => {
         const newStatus = currentStatus === 'Pending' ? 'Completed' : 'Pending';
         try {
             const res = await fetch(`/api/Orders/${id}`, {
@@ -39,7 +55,7 @@ export default function Orders() {
         }
     };
 
-    const handleDelete = async (id: string) => {
+    const handleDelete = async (id: string | number) => {
         if (confirm("Permanently purge this record?")) {
             try {
                 const res = await fetch(`/api/Orders/${id}`, {
@@ -56,14 +72,14 @@ export default function Orders() {
     };
 
 
-    const handleViewReceipt = (order: any) => {
+    const handleViewReceipt = (order: Order) => {
         setSelectedOrder(order);
     };
 
     const sortedOrders = [...orders].sort((a, b) => {
         if (a.status === 'Pending' && b.status !== 'Pending') return -1;
         if (a.status !== 'Pending' && b.status === 'Pending') return 1;
-        return new Date(b.created_at) - new Date(a.created_at); // Sort by date within categories
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime(); // Sort by date within categories
     });
 
     const totalRevenue = orders.reduce((acc, order) => acc + Number(order.total_amount || 0), 0);
@@ -195,7 +211,10 @@ export default function Orders() {
                             <X size={24} />
                         </button>
                         <div className="bg-white shadow-2xl">
-                            <ShippingReceipt order={selectedOrder} />
+                           <ShippingReceipt 
+  order={selectedOrder} 
+  onClose={() => {}} 
+/>
                         </div>
                     </div>
                 </div>
