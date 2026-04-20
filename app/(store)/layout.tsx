@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next"
 import { Manrope, Newsreader } from 'next/font/google';
@@ -5,6 +6,7 @@ import "./globals.css";
 import TopSticky from "../(store)/components/TopSticky";
 import Navbar from "../(store)/components/Navbar";
 import Footer from "../(store)/components/Footer";
+import WhatsAppButton from "../(store)/components/WhatsappButton"
 const manrope = Manrope({
   subsets: ['latin'],
   variable: '--font-manrope',
@@ -37,6 +39,7 @@ export default function RootLayout({
         <Navbar />
         <TopSticky />
         {children}
+        <WhatsAppButton/>
         <Footer />
       </body>
     </html>

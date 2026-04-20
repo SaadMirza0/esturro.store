@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     }
 
     // Insert into Postgres
-    await sql`
+    const result = await sql`
       INSERT INTO orders (
         full_name, 
         email, 
@@ -52,9 +52,12 @@ export async function POST(request: Request) {
         ${product_name},
         ${size}
       )
+      RETURNING id
     `;
 
-    return NextResponse.json({ message: "Order created!" }, { status: 201 });
+    const orderId = result[0].id;
+
+    return NextResponse.json({ message: "Order created!", orderId }, { status: 201 });
 
   } catch (error: any) {
     console.error("Order API Error:", error);

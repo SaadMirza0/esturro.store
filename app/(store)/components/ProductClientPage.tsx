@@ -1,27 +1,31 @@
 "use client";
-import { motion } from "framer-motion";
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import ProductActions from "./ProductActions";
 
 export default function ProductClientPage({ product, relatedProducts }: any) {
-    // Array of all product images from your database columns
-    const images = [
+    // 1. Filter out duplicates and nulls, clean PDF extensions
+    const allImages = [
         product.image_url,
-        product.image_url_2 || product.image_url,
-        product.image_url_3 || product.image_url,
-        product.image_url_4 || product.image_url,
-    ].map((img: string) => img?.toLowerCase().endsWith(".pdf") ? img.replace(".pdf", ".jpg") : img);
+        product.image_url_2,
+        product.image_url_3,
+        product.image_url_4,
+    ].filter(Boolean).map((img: string) => img.toLowerCase().endsWith(".pdf") ? img.replace(".pdf", ".jpg") : img);
+
+    // 2. State for the main active image
+    const [activeImage, setActiveImage] = useState(allImages[0]);
 
     const containerVars = {
         visible: { transition: { staggerChildren: 0.1 } }
     };
 
     const itemVars = {
-        hidden: { opacity: 0, y: 30 },
+        hidden: { opacity: 0, y: 20 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] as const }
+            transition: { duration: 1, ease: [0.22, 1, 0.36, 1] as const }
         }
     };
 
@@ -33,22 +37,53 @@ export default function ProductClientPage({ product, relatedProducts }: any) {
                 variants={containerVars}
                 className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 xl:gap-24 items-start"
             >
-                {/* --- 1. THE GALLERY (Left - 7 Columns) --- */}
-                <div className="lg:col-span-7 flex flex-col gap-8 md:gap-12">
-                    {images.map((img: string, idx: number) => (
-                        <motion.div
-                            key={idx}
-                            variants={itemVars}
-                            className="relative bg-white shadow-[0_15px_40px_rgba(28,28,25,0.03)] group"
-                        >
-                            <img
-                                src={img}
-                                alt={`${product.name} View ${idx + 1}`}
-                                className="w-full object-cover aspect-[4/5] transition-transform duration-1000 group-hover:scale-[1.02]"
+                {/* --- 1. THE DYNAMIC GALLERY (Left - 7 Columns) --- */}
+                <div className="lg:col-span-7 space-y-6">
+                    {/* Main Stage Image */}
+                    <motion.div
+                        variants={itemVars}
+                        className="relative bg-white shadow-[0_30px_60px_rgba(28,28,25,0.03)] overflow-hidden aspect-[4/5]"
+                    >
+                        <AnimatePresence mode="wait">
+                            <motion.img
+                                key={activeImage}
+                                src={activeImage}
+                                initial={{ opacity: 0, scale: 1.05 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.98 }}
+                                transition={{ duration: 0.6, ease: "easeOut" }}
+                                className="w-full h-full object-cover"
+                                alt={product.name}
                             />
-                            <div className="absolute inset-0 border border-[#1C1C19]/[0.04] pointer-events-none" />
-                        </motion.div>
-                    ))}
+                        </AnimatePresence>
+
+                        {/* Signature Ghost Border */}
+                        <div className="absolute inset-0 border border-[#1C1C19]/[0.04] pointer-events-none" />
+
+                        <div className="absolute bottom-6 left-6 bg-[#1C1C19] text-white px-4 py-2 text-[8px] tracking-[0.4em] uppercase font-bold">
+                            Studio Silhouette
+                        </div>
+                    </motion.div>
+
+                    {/* Dynamic Thumbnails Grid (Only shows if more than 1 image exists) */}
+                    {allImages.length > 1 && (
+                        <div className="grid grid-cols-4 md:grid-cols-5 gap-4">
+                            {allImages.map((img, idx) => (
+                                <motion.button
+                                    key={idx}
+                                    variants={itemVars}
+                                    onClick={() => setActiveImage(img)}
+                                    whileHover={{ y: -4 }}
+                                    className={`relative aspect-[3/4] bg-white overflow-hidden transition-all duration-500 border ${activeImage === img
+                                        ? "border-[#D4AF77] opacity-100 shadow-lg"
+                                        : "border-transparent opacity-40 hover:opacity-100"
+                                        }`}
+                                >
+                                    <img src={img} className="w-full h-full object-cover" alt={`Detail ${idx}`} />
+                                </motion.button>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 {/* --- 2. PRODUCT SPECIFICATIONS (Right - 5 Columns Sticky) --- */}
@@ -64,7 +99,7 @@ export default function ProductClientPage({ product, relatedProducts }: any) {
                         </div>
 
                         <div className="mb-12">
-                            <h1 className="text-6xl md:text-7xl font-serif text-[#1C1C19] leading-[0.9] mb-6">
+                            <h1 className="text-5xl md:text-7xl font-serif text-[#1C1C19] leading-[0.9] mb-6">
                                 {product.name.split(' ')[0]} <br />
                                 <span className="italic font-light text-[#D4AF77]">
                                     {product.name.split(' ').slice(1).join(' ')}
@@ -98,40 +133,35 @@ export default function ProductClientPage({ product, relatedProducts }: any) {
                                 <h5 className="text-[9px] tracking-widest uppercase font-bold text-[#1C1C19] mb-2">Artisan Care</h5>
                                 <p className="text-[11px] text-[#1C1C19]/50 uppercase tracking-tight">Cold Wash Only</p>
                             </div>
-                            <div className="col-span-2 pt-4">
-                                <h5 className="text-[9px] tracking-widest uppercase font-bold text-[#1C1C19] mb-2">Origin</h5>
-                                <p className="text-[11px] text-[#1C1C19]/50 uppercase tracking-tight">Hand-Crafted in Pakistan Atelier</p>
-                            </div>
                         </div>
                     </motion.div>
                 </div>
             </motion.div>
 
+            {/* RELATED SECTION REMAINS SAME */}
             <section className="mt-64 pt-32 border-t border-[#1C1C19]/5">
                 <div className="flex justify-between items-end mb-20">
                     <h2 className="text-5xl font-serif text-[#1C1C19]">You May Also <span className="italic">Like</span></h2>
                     <Link href="/store" className="text-[10px] tracking-[0.4em] uppercase font-bold border-b border-[#D4AF77] pb-2 text-[#1C1C19]">Explore Archive</Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-16 lg:gap-24">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
                     {relatedProducts.map((rel: any, idx: number) => (
                         <Link key={rel.id} href={`/product/${rel.id}`} className="group block">
                             <motion.div
                                 whileInView={{ opacity: 1, y: 0 }}
                                 initial={{ opacity: 0, y: 30 }}
                                 transition={{ delay: idx * 0.1, duration: 0.8 }}
-                                className="bg-white mb-8 shadow-[0_20px_50px_rgba(28,28,25,0.03)] overflow-hidden"
+                                className="bg-white mb-8 shadow-sm overflow-hidden aspect-[3/4]"
                             >
                                 <img
                                     src={rel.image_url?.replace(".pdf", ".jpg")}
-                                    className="w-full aspect-[3/4] object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
+                                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
                                     alt={rel.name}
                                 />
                             </motion.div>
-                            <div className="flex justify-between items-baseline">
-                                <h3 className="text-[11px] tracking-widest uppercase font-bold text-[#1C1C19]">{rel.name}</h3>
-                                <p className="text-xs font-sans font-bold text-[#76592A]">₨{Number(rel.price).toLocaleString()}</p>
-                            </div>
+                            <h3 className="text-[10px] tracking-widest uppercase font-bold text-[#1C1C19] mb-1">{rel.name}</h3>
+                            <p className="text-sm font-sans font-bold text-[#76592A]">₨{Number(rel.price).toLocaleString()}</p>
                         </Link>
                     ))}
                 </div>

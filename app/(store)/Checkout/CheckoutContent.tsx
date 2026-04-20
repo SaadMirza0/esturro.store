@@ -44,7 +44,9 @@ export default function CheckoutContent() {
       });
 
       if (res.ok) {
-        window.location.href = "/order-success";
+        const result = await res.json();
+        // Pass orderId and image for the success page to show
+        window.location.href = `/order-success?orderId=${result.orderId}&image=${encodeURIComponent(productImage)}`;
       } else {
         alert("Something went wrong. Please try again.Or Contact on Whatsapp");
       }
