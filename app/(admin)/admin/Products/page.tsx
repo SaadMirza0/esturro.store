@@ -49,131 +49,145 @@ const deleteProduct = async (id: number) => {
   if (loading) return <div className="p-20 text-center font-manrope uppercase tracking-widest text-[10px]">Loading Archive...</div>;
 
   return (
-    <>
-      <div className="flex justify-between items-end mb-16 border-b border-outline-variant/10 pb-8">
-        <div>
-          <h2 className="text-5xl font-bold text-on-surface tracking-tighter mb-2">Inventory Management</h2>
-          <p className="font-body text-on-surface-variant max-w-md uppercase tracking-[0.2em] text-[10px]">Curating the Esturro Seasonal Collection</p>
-        </div>
-        <button
-          onClick={() => setIsOpen(true)}
-          className="bg-primary hover:bg-surface-tint text-on-primary px-10 py-4 font-body text-xs uppercase tracking-widest transition-all active:scale-95 flex items-center gap-3"
-        >
-          <span className="material-symbols-outlined text-sm">add</span>
-          Add New Product
-        </button>
-      </div>
+  <>
+  {/* Header Section: Clean & Aligned */}
+  <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 pb-6 border-b border-gray-200">
+    <div className="mb-4 md:mb-0">
+      <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Inventory Management</h2>
+      <p className="text-xs text-gray-500 uppercase tracking-widest mt-1">Seasonal Collection Control</p>
+    </div>
+    <button
+      onClick={() => {
+        setEditingProduct(null);
+        setIsOpen(true);
+      }}
+      className="bg-black text-white px-6 py-3 text-xs font-bold uppercase tracking-widest transition-all hover:bg-gray-800 active:scale-95 flex items-center gap-2 shadow-sm"
+    >
+      <span className="material-symbols-outlined text-sm">add</span>
+      Add Product
+    </button>
+  </div>
 
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-md"
+  {/* Modal: Simple & Accessible */}
+  {isOpen && (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <div
+        className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm"
+        onClick={() => setIsOpen(false)}
+      />
+      <div className="relative bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl">
+        <div className="sticky top-0 bg-white px-8 py-4 border-b border-gray-100 flex justify-between items-center z-10">
+          <h3 className="text-sm font-bold uppercase tracking-widest text-gray-600">
+            {editingProduct ? 'Edit Product Detail' : 'New Archive Entry'}
+          </h3>
+          <button
             onClick={() => setIsOpen(false)}
-          />
-          <div className="relative bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto shadow-2xl p-10">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-6 right-6 text-gray-400 hover:text-black"
-            >
-              <span className="material-symbols-outlined">close</span>
-            </button>
-             <ProductUpload 
-    initialData={editingProduct} 
-    onSuccess={() => {
-      setIsOpen(false);
-      setEditingProduct(null);
-      fetchProducts(); // Refresh the table
-    }} 
-  />
-          </div>
+            className="text-gray-400 hover:text-black p-2 transition-colors"
+          >
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
-      )}
+        <div className="p-8">
+          <ProductUpload 
+            initialData={editingProduct} 
+            onSuccess={() => {
+              setIsOpen(false);
+              setEditingProduct(null);
+              fetchProducts();
+            }} 
+          />
+        </div>
+      </div>
+    </div>
+  )}
 
-      <div className="bg-surface-container-lowest shadow-[0_20px_40px_rgba(28,28,25,0.04)] overflow-hidden">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-surface-container-low border-b border-outline-variant/10">
-              <th className="px-8 py-6 font-body text-[10px] uppercase tracking-widest text-on-surface-variant">Visual</th>
-              <th className="px-8 py-6 font-body text-[10px] uppercase tracking-widest text-on-surface-variant">Product Identity</th>
-              <th className="px-8 py-6 font-body text-[10px] uppercase tracking-widest text-on-surface-variant">Category</th>
-              <th className="px-8 py-6 font-body text-[10px] uppercase tracking-widest text-on-surface-variant">Investment (PKR)</th>
-              <th className="px-8 py-6 font-body text-[10px] uppercase tracking-widest text-on-surface-variant">Status</th>
-              <th className="px-8 py-6 font-body text-[10px] uppercase tracking-widest text-on-surface-variant text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-outline-variant/5">
-            {/* Added check to prevent .map error */}
-            {products && products.length > 0 ? (
-              products.map((product) => (
-                <tr key={product.id} className="group hover:bg-surface-container-low/50 transition-colors">
-                  <td className="px-8 py-6">
-                    <div className="w-16 h-20 bg-surface-container flex items-center justify-center overflow-hidden">
+  {/* Table Container: High Visibility */}
+  <div className="bg-white border border-gray-200 shadow-sm overflow-hidden">
+    <div className="overflow-x-auto">
+      <table className="w-full text-left border-collapse">
+        <thead>
+          <tr className="bg-gray-50 border-b border-gray-200">
+            <th className="px-6 py-4 text-[10px] uppercase font-bold text-gray-500 tracking-wider">Visual</th>
+            <th className="px-6 py-4 text-[10px] uppercase font-bold text-gray-500 tracking-wider">Product Detail</th>
+            <th className="px-6 py-4 text-[10px] uppercase font-bold text-gray-500 tracking-wider">Specs</th>
+            <th className="px-6 py-4 text-[10px] uppercase font-bold text-gray-500 tracking-wider">Price</th>
+            <th className="px-6 py-4 text-[10px] uppercase font-bold text-gray-500 tracking-wider">Status</th>
+            <th className="px-6 py-4 text-[10px] uppercase font-bold text-gray-500 tracking-wider text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-100">
+          {products && products.length > 0 ? (
+            products.map((product) => (
+              <tr key={product.id} className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4">
+                  <div className="w-12 h-16 bg-gray-100 border border-gray-200 overflow-hidden">
                     <img
-  alt={product.name}
-  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-  src={product.image_url?.toLowerCase().endsWith(".pdf") 
-    ? product.image_url.replace(".pdf", ".jpg") 
-    : product.image_url
-  }
-/>
-
-                    </div>
-                  </td>
-                  <td className="px-8 py-6">
-                    <div className="font-headline text-lg font-bold">{product.name}</div>
-                    <div className="text-[10px] font-body text-on-surface-variant/60 uppercase tracking-wider">
-                      ID: #{product.id?.toString().padStart(4, '0')}
-                    </div>
-                  </td>
-                  <td className="px-8 py-6 font-body text-xs uppercase tracking-widest text-on-surface-variant">
-                    {product.design_style} / {product.category_name}
-                  </td>
-                  <td className="px-8 py-6 font-body font-bold text-sm">
-                    {Number(product.price).toLocaleString()}
-                  </td>
-                  <td className="px-8 py-6">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary font-body text-[9px] uppercase font-bold tracking-tighter">
-                      <span className="w-1 h-1 bg-primary rounded-full"></span>
-                      In Stock
-                    </span>
-                  </td>
-                  <td className="px-8 py-6 text-right">
-                    <div className="flex justify-end gap-4">
-                      <button 
-  onClick={() => {
-    setEditingProduct(product);
-    setIsOpen(true);
-  }}
-  className="text-on-surface/40 hover:text-primary transition-colors"
->
-  <span className="material-symbols-outlined text-lg">edit</span>
-</button>
-                      <button
-                        onClick={() => deleteProduct(product.id)}
-                        className="text-on-surface/40 hover:text-red-600 transition-colors"
-                      >
-                        <span className="material-symbols-outlined text-lg">delete</span>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={6} className="px-8 py-20 text-center font-body text-xs text-on-surface-variant/40 uppercase tracking-[0.2em]">
-                  No inventory pieces found.
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                      src={product.image_url?.toLowerCase().endsWith(".pdf") 
+                        ? product.image_url.replace(".pdf", ".jpg") 
+                        : product.image_url
+                      }
+                    />
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="text-sm font-bold text-gray-900">{product.name}</div>
+                  <div className="text-[10px] text-gray-400 font-mono mt-0.5">#{product.id?.toString().padStart(4, '0')}</div>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="text-xs text-gray-600 font-medium uppercase tracking-tighter">
+                    {product.design_style} <span className="text-gray-300 mx-1">|</span> {product.category_name}
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="text-sm font-bold text-gray-900">₨ {Number(product.price).toLocaleString()}</div>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-green-50 text-green-700 border border-green-100">
+                    In Stock
+                  </span>
+                </td>
+                <td className="px-6 py-4 text-right">
+                  <div className="flex justify-end gap-2">
+                    <button 
+                      onClick={() => {
+                        setEditingProduct(product);
+                        setIsOpen(true);
+                      }}
+                      className="p-2 text-gray-400 hover:text-black hover:bg-gray-100 transition-all"
+                      title="Edit"
+                    >
+                      <span className="material-symbols-outlined text-lg">edit</span>
+                    </button>
+                    <button
+                      onClick={() => deleteProduct(product.id)}
+                      className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all"
+                      title="Delete"
+                    >
+                      <span className="material-symbols-outlined text-lg">delete</span>
+                    </button>
+                  </div>
                 </td>
               </tr>
-            )}
-          </tbody>
-        </table>
+            ) )
+          ) : (
+            <tr>
+              <td colSpan={6} className="px-6 py-20 text-center">
+                <p className="text-xs text-gray-400 uppercase tracking-widest">No products found in archive.</p>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+    <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+      <p className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">
+        Registry: {products.length} Total Pieces
+      </p>
+    </div>
+  </div>
+</>
 
-        <div className="px-8 py-6 flex justify-between items-center bg-surface-container-low border-t border-outline-variant/10">
-          <p className="font-body text-[10px] uppercase tracking-widest text-on-surface-variant opacity-60">
-            Showing {products.length} Archive Pieces
-          </p>
-        </div>
-      </div>
-    </>
   )
 }

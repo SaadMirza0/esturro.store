@@ -41,15 +41,15 @@ export default function Home() {
       desc: "Enjoy our bespoke 7-day exchange policy for a seamless tailoring experience.",
     },
   ];
-  const containerRef = useRef(null);
+  {/*const containerRef = useRef(null);*/}
 
-  const { scrollYProgress } = useScroll({
+ {/* const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
-  });
+  });*/}
 
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
+  {/* const y1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, -150]);*/}
 
   const containerVars = {
     hidden: { opacity: 0 },
@@ -71,98 +71,7 @@ export default function Home() {
   return (
     <main className="bg-[#FCF9F4] min-h-screen selection:bg-[#D4AF77]/30">
   {/*hero section*/}
-  <section
-  ref={containerRef}
-  className="relative min-h-[auto] lg:min-h-screen w-full flex flex-col lg:flex-row items-center pt-32 lg:pt-0 overflow-hidden"
->
-  {/* 1. CONTENT AREA - Visible on all devices */}
-  <motion.div
-    variants={containerVars}
-    initial="hidden"
-    animate="visible"
-    className="relative z-20 w-full lg:w-3/5 px-6 md:px-16 lg:pl-24 flex flex-col justify-center text-center lg:text-left items-center lg:items-start pb-20 lg:pb-0"
-  >
-    <motion.span variants={itemVars} className="text-[#D4AF77] font-sans text-[9px] md:text-[10px] tracking-[0.5em] uppercase block font-bold mb-6 lg:mb-8">
-      Esturro — The Modern Atelier
-    </motion.span>
-
-    <motion.h1 variants={itemVars} className="text-[#1C1C19] text-5xl md:text-8xl lg:text-[110px] xl:text-[130px] font-serif leading-[0.9] tracking-[-0.04em] mb-8 lg:mb-12">
-      The Shirt <br />
-      <span className="italic font-light text-[#D4AF77]">Authority.</span>
-    </motion.h1>
-
-    <motion.p variants={itemVars} className="text-[#1C1C19]/70 font-sans text-sm md:text-base lg:text-lg max-w-sm leading-[1.7] lg:leading-[1.8] mb-10 lg:mb-14">
-      Defined by intentional silence and architectural precision.
-      Crafted for the modern man who demands excellence in every fiber.
-    </motion.p>
-
-    {/* Buttons aligned for mobile stack/desktop row */}
-    <motion.div variants={itemVars} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4 sm:px-0">
-      <Link href="/store" className="w-full sm:w-auto">
-        <motion.button
-          whileTap={{ scale: 0.96 }}
-          className="w-full bg-[#1C1C19] text-white px-12 py-5 lg:py-6 text-[10px] tracking-[0.3em] uppercase transition-all duration-500 shadow-2xl hover:bg-[#D4AF77]"
-        >
-          Explore Archive
-        </motion.button>
-      </Link>
-      <Link href="/about" className="w-full sm:w-auto">
-        <motion.button
-          whileTap={{ scale: 0.96 }}
-          className="w-full border border-[#1C1C19]/20 text-[#1C1C19] px-12 py-5 lg:py-6 text-[10px] tracking-[0.3em] uppercase transition-all duration-500 hover:bg-[#1C1C19] hover:text-white"
-        >
-          The Heritage
-        </motion.button>
-      </Link>
-    </motion.div>
-  </motion.div>
-
-  {/* 2. DYNAMIC GALLERY - STRICTLY HIDDEN ON MOBILE (lg:flex only) */}
-  <div className="hidden lg:flex relative lg:w-2/5 h-screen items-center justify-center lg:px-12">
-    {/* Desktop Background Plate */}
-    <div className="absolute right-0 top-0 w-full lg:w-[85%] h-full bg-[#F6F3EE] z-0" />
-
-    <div className="relative z-10 w-full h-full flex items-center justify-center">
-      {/* Main Image */}
-      <motion.div
-        style={{ y: y1 }}
-        className="relative lg:w-full h-[75%] bg-white p-4 shadow-[0_40px_80px_rgba(28,28,25,0.08)] group overflow-hidden"
-      >
-        <img
-          src="/17-1.png"
-          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-          alt="Main Look"
-        />
-        <div className="absolute top-0 right-0 bg-[#1C1C19] text-white px-4 py-2 text-[8px] tracking-[0.3em] uppercase font-bold">
-          SS/26
-        </div>
-      </motion.div>
-
-      {/* Floating Fragment */}
-      <motion.div
-        style={{ y: y2 }}
-        initial={{ opacity: 0, rotate: -5 }}
-        animate={{ opacity: 1, rotate: -2 }}
-        transition={{ delay: 0.6 }}
-        className="absolute lg:-left-16 lg:bottom-32 lg:w-1/2 aspect-[3/4] bg-white p-2 shadow-2xl z-20 border border-[#D4AF77]/10 group"
-      >
-        <img
-          src="/black-shirt.png"
-          className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
-          alt="Detail View"
-        />
-        <div className="absolute -bottom-4 -left-2 bg-white px-3 py-1.5 shadow-sm italic font-serif text-[9px] text-[#D4AF77] whitespace-nowrap">
-          Texture Study
-        </div>
-      </motion.div>
-    </div>
-  </div>
-
-  {/* Background Decor (Desktop Only) */}
-  <div className="absolute top-1/2 left-10 -translate-y-1/2 opacity-[0.03] select-none pointer-events-none hidden xl:block">
-    <span className="text-[25vw] font-serif font-black text-[#1C1C19]">EST</span>
-  </div>
-</section>
+ 
 
 
       {/* latest Arrivals  */}

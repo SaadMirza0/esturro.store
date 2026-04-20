@@ -17,46 +17,65 @@ export default function CheckoutContent() {
   const shippingFee: number = 0; // Free shipping for now, or you can change this
   const total = productPrice + shippingFee;
 const router = useRouter();
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
+ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setLoading(true);
 
-    const formData = new FormData(e.currentTarget);
+  const formData = new FormData(e.currentTarget);
+  const selectedPayment = formData.get("payment"); // This gets the value from the radio buttons
 
-    const orderData = {
-      full_name: formData.get("full_name"),
-      email: formData.get("email") || "N/A",
-      phone: formData.get("phone"),
-      city: formData.get("city"),
-      province: formData.get("province"),
-      address: formData.get("address"),
-      payment_method: formData.get("payment"),
-      // Use the real data from URL
-      total_amount: total,
-      product_name: productName,
-      size: selectedSize
-    };
-
-    try {
-      const res = await fetch("/api/Orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderData),
-      });
-
-      if (res.ok) {
-        const result = await res.json();
-        // Pass orderId and image for the success page to show
-        window.location.href = `/order-success?orderId=${result.orderId}&image=${encodeURIComponent(productImage)}`;
-      } else {
-        alert("Something went wrong. Please try again.Or Contact on Whatsapp");
-      }
-    } catch (error) {
-      alert("Order failed.");
-    } finally {
-      setLoading(false);
-    }
+  const orderData = {
+    full_name: formData.get("full_name"),
+    email: formData.get("email") || "N/A",
+    phone: formData.get("phone"),
+    city: formData.get("city"),
+    province: formData.get("province"),
+    address: formData.get("address"),
+    payment_method: selectedPayment, // Saves "Advance Payment on Whatsapp" or "COD"
+    total_amount: total,
+    product_name: productName,
+    size: selectedSize
   };
+
+  try {
+    const res = await fetch("/api/Orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orderData),
+    });
+
+    if (res.ok) {
+      const result = await res.json();
+      const orderId = result.orderId;
+
+      // --- THE WHATSAPP LOGIC ---
+      if (selectedPayment === "Advance Payment on Whatsapp") {
+const message = encodeURIComponent(
+  `*NEW ORDER: ADVANCE PAYMENT*\n\n` +
+  `I want to do advance payment for this order.\n\n` +
+  `*Order ID:* #EST-${orderId}\n` +
+  `*Product:* ${productName}\n` +
+  `*Size:* ${selectedSize}\n` +
+  `*Total:* ₨ ${total.toLocaleString()}\n\n` +
+  `*Customer:* ${orderData.full_name}`
+);
+
+// This matches your example format exactly
+window.open(`https://wa.me/923010544620?text=${message}`, "_blank");
+
+      }
+
+      // Move to success page regardless of payment type
+      router.push(`/OrderSuccess`);
+    }
+  } catch (error) {
+    alert("Order failed. Please contact us via WhatsApp.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   const slideReveal = {
     hidden: { opacity: 0, x: -20 },
@@ -133,9 +152,9 @@ const router = useRouter();
                   03. Settlement
                 </h2>
                 <div className="flex flex-col gap-4">
-                  {["Advance Payment", "COD"].map((method) => (
+                  {["Advance Payment on Whatsapp", "COD"].map((method) => (
                     <label key={method} className="group relative flex items-center p-8 border border-white/5 hover:border-[#D4AF77] bg-white/[0.02] transition-all duration-500 cursor-pointer">
-                      <input name="payment" value={method} defaultChecked={method === "Advance Payment"} type="radio" className="w-4 h-4 text-[#D4AF77] bg-transparent border-white/20 focus:ring-0" />
+                      <input name="payment" value={method} defaultChecked={method === "Advance Payment on Whatsapp"} type="radio" className="w-4 h-4 text-[#D4AF77] bg-transparent border-white/20 focus:ring-0" />
                       <div className="ml-6">
                         <span className="block text-[11px] tracking-[0.3em] uppercase font-bold text-white">{method === "COD" ? "Cash on Delivery" : method}</span>
                         <span className="text-[9px] tracking-widest uppercase text-white/40 mt-1 block">{method === "COD" ? "Pay upon Arrival" : "Secure Online Transaction"}</span>
@@ -146,12 +165,12 @@ const router = useRouter();
               </motion.section>
 
               <div className="pt-12">
-                <button
-                  disabled={loading}
-                  className="w-full bg-gradient-to-r from-[#76592A] to-[#D4AF77] text-white py-8 text-[11px] tracking-[0.5em] uppercase font-bold transition-all hover:shadow-[0_20px_50px_rgba(212,175,119,0.2)] active:scale-[0.98]"
-                >
-                  {loading ? "Establishing Order..." : "Finalize Purchase"}
-                </button>
+              <button 
+  disabled={loading} 
+  className="w-full bg-gradient-to-r from-[#76592A] to-[#D4AF77] text-white py-6 text-xs tracking-[0.3em] font-bold uppercase transition-all shadow-2xl"
+>
+  {loading ? "Establishing Order..." : "Authorize & Finalize Purchase"}
+</button>
               </div>
             </form>
           </motion.div>
