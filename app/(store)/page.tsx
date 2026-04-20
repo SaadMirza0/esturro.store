@@ -71,195 +71,198 @@ export default function Home() {
   return (
     <main className="bg-[#FCF9F4] min-h-screen selection:bg-[#D4AF77]/30">
   {/*hero section*/}
-      <section
-        ref={containerRef}
-        className="relative min-h-screen w-full flex flex-col lg:flex-row items-center pt-32 lg:pt-0 overflow-hidden"
-      >
+  <section
+  ref={containerRef}
+  className="relative min-h-[auto] lg:min-h-screen w-full flex flex-col lg:flex-row items-center pt-32 lg:pt-0 overflow-hidden"
+>
+  {/* 1. CONTENT AREA - Visible on all devices */}
+  <motion.div
+    variants={containerVars}
+    initial="hidden"
+    animate="visible"
+    className="relative z-20 w-full lg:w-3/5 px-6 md:px-16 lg:pl-24 flex flex-col justify-center text-center lg:text-left items-center lg:items-start pb-20 lg:pb-0"
+  >
+    <motion.span variants={itemVars} className="text-[#D4AF77] font-sans text-[9px] md:text-[10px] tracking-[0.5em] uppercase block font-bold mb-6 lg:mb-8">
+      Esturro — The Modern Atelier
+    </motion.span>
 
-        <motion.div
-          variants={containerVars}
-          initial="hidden"
-          animate="visible"
-          className="relative z-20 w-full lg:w-3/5 px-6 md:px-16 lg:pl-24 flex flex-col justify-center text-center lg:text-left items-center lg:items-start"
+    <motion.h1 variants={itemVars} className="text-[#1C1C19] text-5xl md:text-8xl lg:text-[110px] xl:text-[130px] font-serif leading-[0.9] tracking-[-0.04em] mb-8 lg:mb-12">
+      The Shirt <br />
+      <span className="italic font-light text-[#D4AF77]">Authority.</span>
+    </motion.h1>
+
+    <motion.p variants={itemVars} className="text-[#1C1C19]/70 font-sans text-sm md:text-base lg:text-lg max-w-sm leading-[1.7] lg:leading-[1.8] mb-10 lg:mb-14">
+      Defined by intentional silence and architectural precision.
+      Crafted for the modern man who demands excellence in every fiber.
+    </motion.p>
+
+    {/* Buttons aligned for mobile stack/desktop row */}
+    <motion.div variants={itemVars} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4 sm:px-0">
+      <Link href="/store" className="w-full sm:w-auto">
+        <motion.button
+          whileTap={{ scale: 0.96 }}
+          className="w-full bg-[#1C1C19] text-white px-12 py-5 lg:py-6 text-[10px] tracking-[0.3em] uppercase transition-all duration-500 shadow-2xl hover:bg-[#D4AF77]"
         >
-          <motion.span variants={itemVars} className="text-[#D4AF77] font-sans text-[9px] md:text-[10px] tracking-[0.5em] uppercase block font-bold mb-6 lg:mb-8">
-            Esturro — The Modern
-          </motion.span>
+          Explore Archive
+        </motion.button>
+      </Link>
+      <Link href="/about" className="w-full sm:w-auto">
+        <motion.button
+          whileTap={{ scale: 0.96 }}
+          className="w-full border border-[#1C1C19]/20 text-[#1C1C19] px-12 py-5 lg:py-6 text-[10px] tracking-[0.3em] uppercase transition-all duration-500 hover:bg-[#1C1C19] hover:text-white"
+        >
+          The Heritage
+        </motion.button>
+      </Link>
+    </motion.div>
+  </motion.div>
 
-          <motion.h1 variants={itemVars} className="text-[#1C1C19] text-5xl md:text-8xl lg:text-[110px] xl:text-[130px] font-serif leading-[0.9] tracking-[-0.04em] mb-8 lg:mb-12">
-            The Shirt <br />
-            <span className="italic font-light text-[#D4AF77]">Authority.</span>
-          </motion.h1>
+  {/* 2. DYNAMIC GALLERY - STRICTLY HIDDEN ON MOBILE (lg:flex only) */}
+  <div className="hidden lg:flex relative lg:w-2/5 h-screen items-center justify-center lg:px-12">
+    {/* Desktop Background Plate */}
+    <div className="absolute right-0 top-0 w-full lg:w-[85%] h-full bg-[#F6F3EE] z-0" />
 
-          <motion.p variants={itemVars} className="text-[#1C1C19]/70 font-sans text-sm md:text-base lg:text-lg max-w-sm leading-[1.7] lg:leading-[1.8] mb-10 lg:mb-14">
-            Defined by intentional silence and architectural precision.
-            Crafted for the modern man who demands excellence in every stitch.
-          </motion.p>
-
-          {/* mobilebuttons */}
-          <motion.div variants={itemVars} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4 sm:px-0">
-            <Link href="/store" className="w-full sm:w-auto">
-              <motion.button
-                whileTap={{ scale: 0.96 }}
-                className="w-full bg-[#1C1C19] text-white px-12 py-5 lg:py-6 text-[10px] tracking-[0.3em] uppercase transition-all duration-500 shadow-2xl hover:bg-[#D4AF77]"
-              >
-                More Collection
-              </motion.button>
-            </Link>
-            <Link href="/about" className="w-full sm:w-auto">
-              <motion.button
-                whileTap={{ scale: 0.96 }}
-                className="w-full border border-[#1C1C19]/20 text-[#1C1C19] px-12 py-5 lg:py-6 text-[10px] tracking-[0.3em] uppercase transition-all duration-500 hover:bg-[#1C1C19] hover:text-white"
-              >
-                About us
-              </motion.button>
-            </Link>
-          </motion.div>
-        </motion.div>
-
-        {/* herosection image*/}
-        <div className="relative w-full lg:w-2/5 h-[65vh] lg:h-screen flex items-center justify-center px-6 lg:px-12 mt-16 lg:mt-0">
-
-          <div className="absolute right-0 bottom-0 lg:top-0 w-full lg:w-[85%] h-[90%] lg:h-full bg-[#F6F3EE] z-0 rounded-t-[50px] lg:rounded-none" />
-
-          <div className="relative z-10 w-full h-full flex items-center justify-center">
-
-            <motion.div
-              style={{ y: y1 }}
-              className="relative w-[75%] lg:w-full h-[75%] lg:h-3/4 bg-white p-3 lg:p-4 shadow-[0_40px_80px_rgba(28,28,25,0.08)] group overflow-hidden"
-            >
-              <img
-                src="/17-1.png"
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                alt="Main Look"
-              />
-              <div className="absolute top-0 right-0 bg-[#1C1C19] text-white px-4 py-2 text-[8px] tracking-[0.3em] uppercase font-bold">
-                SS/26
-              </div>
-            </motion.div>
-
-
-            <motion.div
-              style={{ y: y2 }}
-              initial={{ opacity: 0, rotate: -5 }}
-              animate={{ opacity: 1, rotate: -2 }}
-              transition={{ delay: 0.6 }}
-              className="absolute left-0 lg:-left-16 bottom-12 lg:bottom-32 w-2/5 lg:w-1/2 aspect-[3/4] bg-white p-2 shadow-2xl z-20 border border-[#D4AF77]/10 group"
-            >
-              <img
-                src="/black-shirt.png"
-                className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
-                alt="Detail View"
-              />
-              <div className="absolute -bottom-4 -left-2 bg-white px-3 py-1.5 shadow-sm italic font-serif text-[9px] text-[#D4AF77] whitespace-nowrap">
-                Texture Study
-              </div>
-            </motion.div>
-          </div>
+    <div className="relative z-10 w-full h-full flex items-center justify-center">
+      {/* Main Image */}
+      <motion.div
+        style={{ y: y1 }}
+        className="relative lg:w-full h-[75%] bg-white p-4 shadow-[0_40px_80px_rgba(28,28,25,0.08)] group overflow-hidden"
+      >
+        <img
+          src="/17-1.png"
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+          alt="Main Look"
+        />
+        <div className="absolute top-0 right-0 bg-[#1C1C19] text-white px-4 py-2 text-[8px] tracking-[0.3em] uppercase font-bold">
+          SS/26
         </div>
+      </motion.div>
 
-
-        <div className="absolute top-1/2 left-10 -translate-y-1/2 opacity-[0.03] select-none pointer-events-none hidden xl:block">
-          <span className="text-[25vw] font-serif font-black text-[#1C1C19]">EST</span>
+      {/* Floating Fragment */}
+      <motion.div
+        style={{ y: y2 }}
+        initial={{ opacity: 0, rotate: -5 }}
+        animate={{ opacity: 1, rotate: -2 }}
+        transition={{ delay: 0.6 }}
+        className="absolute lg:-left-16 lg:bottom-32 lg:w-1/2 aspect-[3/4] bg-white p-2 shadow-2xl z-20 border border-[#D4AF77]/10 group"
+      >
+        <img
+          src="/black-shirt.png"
+          className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
+          alt="Detail View"
+        />
+        <div className="absolute -bottom-4 -left-2 bg-white px-3 py-1.5 shadow-sm italic font-serif text-[9px] text-[#D4AF77] whitespace-nowrap">
+          Texture Study
         </div>
-      </section>
+      </motion.div>
+    </div>
+  </div>
+
+  {/* Background Decor (Desktop Only) */}
+  <div className="absolute top-1/2 left-10 -translate-y-1/2 opacity-[0.03] select-none pointer-events-none hidden xl:block">
+    <span className="text-[25vw] font-serif font-black text-[#1C1C19]">EST</span>
+  </div>
+</section>
+
 
       {/* latest Arrivals  */}
-      <section className="py-32 px-6 md:px-12 lg:px-24 bg-[#FCF9F4] overflow-hidden">
-        {/* --- 1. SECTION HEADER --- */}
-        <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-2xl"
-          >
-            <span className="text-[#D4AF77] text-[10px] tracking-[0.5em] uppercase font-bold mb-4 block">
-              The Archive — Vol. 01
-            </span>
-            <h2 className="text-[#1C1C19] text-5xl md:text-7xl font-serif leading-[0.85] tracking-tight">
-              Latest <span className="italic font-light text-[#D4AF77]">Arrivals</span>
-            </h2>
-            <p className="mt-8 text-[#1C1C19]/60 font-sans text-base md:text-lg leading-relaxed max-w-md">
-              An curated archive where architectural precision meets premium Giza cotton.
-              Each silhouette is limited in production.
-            </p>
-          </motion.div>
+   <section className="py-24 lg:py-32 px-4 md:px-12 lg:px-24 bg-[#FCF9F4] overflow-hidden">
+  {/* --- 1. SECTION HEADER --- */}
+  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 lg:mb-24 gap-8 lg:gap-12">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="max-w-2xl"
+    >
+      <span className="text-[#D4AF77] text-[9px] md:text-[10px] tracking-[0.5em] uppercase font-bold mb-4 block">
+        The Archive — Vol. 01
+      </span>
+      <h2 className="text-[#1C1C19] text-4xl md:text-7xl font-serif leading-[0.85] tracking-tight">
+        Latest <span className="italic font-light text-[#D4AF77]">Arrivals</span>
+      </h2>
+      <p className="mt-6 text-[#1C1C19]/60 font-sans text-sm md:text-lg leading-relaxed max-w-md">
+        A curated archive where architectural precision meets premium Giza cotton.
+      </p>
+    </motion.div>
 
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-            <Link href="/store" className="group flex items-center gap-6 text-[10px] tracking-[0.4em] uppercase font-bold text-[#1C1C19] border-b border-[#1C1C19]/10 pb-4 transition-all hover:border-[#D4AF77]">
-              Explore Archive
-              <span className="text-xl transition-transform group-hover:translate-x-2">→</span>
-            </Link>
-          </motion.div>
-        </div>
+    <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+      <Link href="/store" className="group flex items-center gap-4 text-[10px] tracking-[0.4em] uppercase font-bold text-[#1C1C19] border-b border-[#1C1C19]/10 pb-2 transition-all hover:border-[#D4AF77]">
+        Explore Archive
+        <span className="text-lg transition-transform group-hover:translate-x-2">→</span>
+      </Link>
+    </motion.div>
+  </div>
 
-        {/* --- 2. THE ARCHITECTURAL GRID (4 Columns x 3 Rows) --- */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-16 md:gap-x-8 md:gap-y-24">
-          {products.slice(0, 12).map((product, index) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{
-                duration: 0.8,
-                delay: (index % 4) * 0.1,
-                ease: [0.22, 1, 0.36, 1]
-              }}
-              className="group relative flex flex-col"
-            >
-              {/* Image Module: Tonal Stacking */}
-              <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-[0_10px_30px_rgba(28,28,25,0.02)] group-hover:shadow-[0_40px_80px_rgba(28,28,25,0.06)] transition-all duration-700">
-                <motion.img
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 1.2, ease: [0.2, 0, 0.2, 1] }}
-                  className="w-full h-full object-cover"
-                  src={product.image_url?.toLowerCase().endsWith(".pdf")
-                    ? product.image_url.replace(".pdf", ".jpg")
-                    : product.image_url
-                  }
-                  alt={product.name}
-                />
+  {/* --- 2. THE ARCHITECTURAL GRID (Symmetrical for Mobile & PC) --- */}
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-12 md:gap-x-8 md:gap-y-24">
+    {products.slice(0, 12).map((product, index) => (
+      <Link key={product.id} href={`/product/${product.id}`} className="group block">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{
+            duration: 0.8,
+            delay: (index % 4) * 0.1,
+            ease: [0.22, 1, 0.36, 1]
+          }}
+          className="relative flex flex-col"
+        >
+          {/* Image Module: Full Area tap target */}
+          <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+            <motion.img
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 1.2, ease: [0.2, 0, 0.2, 1] }}
+              className="w-full h-full object-cover"
+              src={product.image_url?.toLowerCase().endsWith(".pdf")
+                ? product.image_url.replace(".pdf", ".jpg")
+                : product.image_url
+              }
+              alt={product.name}
+            />
 
-                {/* Luxury Badge: Solid Authority Black */}
-                <div className="absolute top-0 left-0 bg-[#1C1C19] text-white px-4 py-2 text-[7px] tracking-[0.3em] uppercase font-bold">
-                  {product.design_style}
-                </div>
+            {/* Luxury Badge */}
+            <div className="absolute top-0 right-0 bg-[#1C1C19] text-white px-2 py-1 md:px-3 md:py-1.5 text-[7px] md:text-[8px] tracking-[0.2em] uppercase font-bold">
+              {product.design_style}
+            </div>
 
-                {/* Interaction Overlay: Minimal Glassmorphism */}
-                <div className="absolute inset-0 bg-[#FCF9F4]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-center justify-center backdrop-blur-[2px]">
-                  <Link href={`/product/${product.id}`}>
-                    <button className="bg-[#1C1C19] text-white px-8 py-4 text-[9px] tracking-[0.4em] uppercase shadow-2xl translate-y-4 group-hover:translate-y-0 transition-all duration-500 active:scale-95">
-                      View Details
-                    </button>
-                  </Link>
-                </div>
-              </div>
+            {/* Interaction Overlay (Hidden on Mobile for cleaner UX, visible on Desktop hover) */}
+            <div className="absolute inset-0 bg-[#FCF9F4]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 hidden lg:flex items-center justify-center backdrop-blur-[2px]">
+                <span className="bg-[#1C1C19] text-white px-6 py-3 text-[9px] tracking-[0.4em] uppercase shadow-2xl">
+                  View Detail
+                </span>
+            </div>
+          </div>
 
-              {/* Product Identity: Editorial Spacing */}
-              <div className="mt-6 space-y-3 px-1">
-                <div className="flex flex-col gap-1">
-                  <h3 className="text-[#1C1C19] text-lg font-serif tracking-tight leading-tight line-clamp-1 group-hover:text-[#D4AF77] transition-colors duration-500">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center gap-3">
-                    <div className="h-[1px] w-6 bg-[#D4AF77]/30" />
-                    <p className="text-[#1C1C19]/30 text-[8px] uppercase tracking-[0.3em] font-bold">
-                      {product.category_name}
-                    </p>
-                  </div>
-                </div>
+          {/* Product Identity */}
+          <div className="mt-4 md:mt-6 space-y-2 md:space-y-3 px-1 text-center md:text-left">
+            <div className="space-y-1">
+              <p className="text-[7px] md:text-[8px] tracking-[0.3em] uppercase text-[#1C1C19]/30 font-bold">
+                {product.category_name}
+              </p>
+              <h3 className="text-[#1C1C19] text-sm md:text-xl font-serif tracking-tight leading-tight line-clamp-1 group-hover:text-[#D4AF77] transition-colors duration-500">
+                {product.name}
+              </h3>
+            </div>
 
-                <p className="text-[#76592A] font-sans font-bold text-sm tracking-tighter">
-                  ₨{Number(product.price).toLocaleString()}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+            <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
+              <p className="text-[#76592A] font-sans font-bold text-xs md:text-base tracking-tight">
+                ₨{Number(product.price).toLocaleString()}
+              </p>
+              <div className="hidden md:block h-[1px] w-4 bg-[#D4AF77]/30" />
+              <span className="text-[7px] md:text-[8px] uppercase tracking-widest text-[#1C1C19]/20 font-bold italic">
+                In Stock
+              </span>
+            </div>
+          </div>
+        </motion.div>
+      </Link>
+    ))}
+  </div>
+</section>
+
 
       {/* testimonials */}
       <section className="py-24 bg-[#F6F3EE] px-6 md:px-24">
