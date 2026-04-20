@@ -18,8 +18,8 @@ export default function ProductActions({ product }: { product: any }) {
       {/* Size Selection */}
       <div>
         <div className="flex justify-between items-center mb-4">
-          <span className="font-body text-[11px] tracking-widest uppercase font-bold text-[#1C1C19]/40">Select Size</span>
-          <button className="font-body text-[11px] tracking-widest uppercase text-[#D4AF77] underline underline-offset-4 italic">Size Guide</button>
+          <span className="font-body text-[11px] tracking-widest uppercase font-bold text-[#1C1C19]/40">Available Sizes</span>
+         
         </div>
         <div className="flex flex-wrap gap-3">
           {sizes.map((size: string) => (
@@ -44,11 +44,11 @@ export default function ProductActions({ product }: { product: any }) {
         <Link
           href={`/Checkout?id=${product.id}&size=${selectedSize}&price=${product.price}&name=${encodeURIComponent(product.name)}&image=${encodeURIComponent(product.image_url)}`}
           className={`w-full py-6 text-center text-[10px] uppercase tracking-[0.3em] font-bold transition-all duration-700 0px ${!selectedSize
-            ? 'bg-[#1C1C19]/5 text-[#1C1C19]/20 cursor-not-allowed'
+            ? 'bg-[#1C1C19]/5 text-[#000000] cursor-not-allowed'
             : 'bg-[#1C1C19] text-[#FCF9F4] hover:bg-[#2C2C29] shadow-2xl active:scale-[0.98]'
             }`}
         >
-          {selectedSize ? "Proceed to Purchase" : "Awaiting Size Selection"}
+          {selectedSize ? "Proceed to Purchase" : "First Select Size for Checkout"}
         </Link>
 
         {/* 2. BESPOKE ACTION: WhatsApp Customization (Replaces Buy on WhatsApp) */}
