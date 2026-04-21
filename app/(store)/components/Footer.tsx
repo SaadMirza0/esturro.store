@@ -146,18 +146,46 @@ export default function SignatureFooter() {
           </div>
 
      
-          <div className="flex flex-col items-end gap-3 text-[9px] tracking-[0.4em] uppercase text-white/20">
-            <span className="opacity-40 italic font-serif lowercase tracking-normal">Digital Flagship curated by</span>
-            <a 
-              href="https://saadmirza.vercel.app" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-[#D4AF77] font-black text-xs relative group py-1"
-            >
-              Saad Mirza
-              <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#D4AF77] scale-x-0 group-hover:scale-x-100 transition-transform origin-right duration-500" />
-            </a>
-          </div>
+         <div className="flex flex-col items-end gap-2 pt-8 border-t border-white/5">
+  <span className="text-[8px] tracking-[0.2em] uppercase text-white/30 italic font-serif lowercase">
+    Website Created by 
+  </span>
+  
+  <div className="flex flex-wrap justify-end items-center gap-x-4 gap-y-2 text-[9px] tracking-widest text-white/40">
+    {/* Portfolio Link */}
+    <a 
+      href="https://saadmirza.vercel.app" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className="text-[#D4AF77] font-black uppercase hover:text-white transition-colors"
+    >
+      Saad Mirza
+    </a>
+
+    <span className="w-1 h-1 rounded-full bg-white/10 hidden md:block" />
+
+    {/* Email */}
+    <a 
+      href="mailto:saadmirzapak@gmail.com" 
+      className="hover:text-[#D4AF77] transition-colors lowercase"
+    >
+      saadmirzapak@gmail.com
+    </a>
+
+    <span className="w-1 h-1 rounded-full bg-white/10 hidden md:block" />
+
+    {/* WhatsApp */}
+    <a 
+      href="https://wa.me" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className="hover:text-[#D4AF77] transition-colors"
+    >
+      +92 301 0544620
+    </a>
+  </div>
+</div>
+
         </div>
       </div>
 
