@@ -228,11 +228,20 @@ export default function CheckoutContent() {
     {/* --- PRODUCT IDENTITY --- */}
     <div className="flex gap-10 items-start">
       <div className="w-36 h-48 bg-[#FCF9F4] overflow-hidden flex-shrink-0 shadow-[0_30px_60px_rgba(28,28,25,0.08)] border border-[#1C1C19]/5">
-        <img 
-          src={productImage?.toLowerCase().endsWith(".pdf") ? productImage.replace(".pdf", ".png") : productImage} 
-          alt={productName} 
-          className="w-full h-full object-cover" 
-        />
+      <img 
+  src={(() => {
+    // 1. Get the first image from the comma-separated string
+    const firstUrl = productImage?.split(',')[0] || "";
+    
+    // 2. Apply your existing PDF conversion logic to that single URL
+    return firstUrl.toLowerCase().endsWith(".pdf") 
+      ? firstUrl.replace(".pdf", ".png") 
+      : firstUrl;
+  })()} 
+  alt={productName} 
+  className="w-full h-full object-cover" 
+/>
+
       </div>
 
       <div className="space-y-4 pt-2">

@@ -118,16 +118,22 @@ export default function Home() {
         >
           {/* Image Module: Full Area tap target */}
           <div className="relative aspect-[3/4] overflow-hidden bg-white shadow-sm transition-all duration-700 group-hover:shadow-2xl">
-            <motion.img
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 1.2, ease: [0.2, 0, 0.2, 1] }}
-              className="w-full h-full object-cover"
-              src={product.image_url?.toLowerCase().endsWith(".pdf")
-                ? product.image_url.replace(".pdf", ".jpg")
-                : product.image_url
-              }
-              alt={product.name}
-            />
+          <motion.img
+  whileHover={{ scale: 1.05 }}
+  transition={{ duration: 1.2, ease: [0.2, 0, 0.2, 1] }}
+  className="w-full h-full object-cover"
+  src={(() => {
+    // 1. Get only the first image from the list
+    const firstImage = product.image_url?.split(',')[0] || "";
+    
+    // 2. Apply your PDF to JPG logic to that single image
+    return firstImage.toLowerCase().endsWith(".pdf")
+      ? firstImage.replace(".pdf", ".jpg")
+      : firstImage;
+  })()}
+  alt={product.name}
+/>
+
 
             {/* Luxury Badge */}
             <div className="absolute top-0 right-0 bg-[#1C1C19] text-white px-2 py-1 md:px-3 md:py-1.5 text-[7px] md:text-[8px] tracking-[0.2em] uppercase font-bold">

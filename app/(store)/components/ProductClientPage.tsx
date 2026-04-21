@@ -5,21 +5,35 @@ import Link from "next/link";
 import ProductActions from "./ProductActions";
 
 export default function ProductClientPage({ product, relatedProducts }: any) {
-    const allImages = [1, 2, 3, 4, 5].map((page) => {
-    if (!product.image_url) return null;
-    if (product.image_url.toLowerCase().endsWith(".pdf")) {
-        return product.image_url
-            .replace("/upload/", `/upload/f_auto,q_auto,pg_${page}/`)
-            .replace(".pdf", ".jpg");
+   const allImages = (() => {
+    if (!product.image_url) return [];
+
+    // 1. Split the string in case it's multiple JPGs/PNGs
+    const urlArray = product.image_url.split(',');
+
+    // 2. If the first item is a PDF, use the page-extraction logic
+    if (urlArray[0].toLowerCase().endsWith(".pdf")) {
+      return [1, 2, 3, 4, 5].map((page) => {
+        return urlArray[0]
+          .replace("/upload/", `/upload/f_auto,q_auto,pg_${page}/`)
+          .replace(".pdf", ".jpg");
+      });
     }
-    return page === 1 ? product.image_url : null;
-}).filter(Boolean) as string[];
-const [activeImage, setActiveImage] = useState<string>(allImages[0]);
-useEffect(() => {
+
+    // 3. If they are regular images, process them and handle PDF fallback for each
+    return urlArray.map((img) => {
+      const url = img.trim();
+      return url.toLowerCase().endsWith(".pdf") ? url.replace(".pdf", ".jpg") : url;
+    });
+  })().filter(Boolean) as string[];
+
+  const [activeImage, setActiveImage] = useState<string>(allImages[0]);
+
+  useEffect(() => {
     if (allImages.length > 0) {
-        setActiveImage(allImages[0]);
+      setActiveImage(allImages[0]);
     }
-}, [product.id]);
+  }, [product.id, product.image_url]); // Added image_url to dependency to update after upload
 
 
 

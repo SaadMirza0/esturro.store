@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 
-
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> } // 1. Update the type to Promise
 ) {
   try {
-    const id = params.id;
+    const { id } = await params; // 2. Await the params here
+
     await sql`DELETE FROM shirts WHERE id = ${id}`;
+    
     return NextResponse.json({ message: "Deleted Successfully" });
   } catch (error) {
     return NextResponse.json({ error: "Delete failed" }, { status: 500 });

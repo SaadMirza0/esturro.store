@@ -2,20 +2,19 @@
 import { useState, useEffect } from "react";
 import { CldUploadWidget } from "next-cloudinary";
 
-// 1. Define Props to accept data from the Edit button
 interface ProductUploadProps {
   initialData?: any;
   onSuccess?: () => void;
 }
 
 export default function ProductUpload({ initialData, onSuccess }: ProductUploadProps) {
+  // Logic: Store multiple URLs as a comma-separated string to keep DB logic identical
   const [imageUrl, setImageUrl] = useState(initialData?.image_url || "");
   const [sizes, setSizes] = useState<string[]>(
     initialData?.available_sizes ? initialData.available_sizes.split(", ") : []
   );
   const [loading, setLoading] = useState(false);
 
-  // Sync state if initialData changes (when switching between different edits)
   useEffect(() => {
     if (initialData) {
       setImageUrl(initialData.image_url || "");
@@ -31,7 +30,7 @@ export default function ProductUpload({ initialData, onSuccess }: ProductUploadP
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!imageUrl) return alert("Please upload an image first!");
+    if (!imageUrl) return alert("Please upload an image or PDF first!");
 
     setLoading(true);
     const formData = new FormData(e.currentTarget);
@@ -44,10 +43,9 @@ export default function ProductUpload({ initialData, onSuccess }: ProductUploadP
       design_style: formData.get("style"),
       season: formData.get("season"),
       available_sizes: sizes.join(", "),
-      image_url: imageUrl,
+      image_url: imageUrl, // Sends the comma-separated list of images
     };
 
-    // Determine if we are creating NEW or UPDATING existing
     const url = initialData ? `/api/Products/${initialData.id}` : "/api/Products";
     const method = initialData ? "PATCH" : "POST";
 
@@ -66,6 +64,7 @@ export default function ProductUpload({ initialData, onSuccess }: ProductUploadP
     }
     setLoading(false);
   };
+
 
   return (
     <section className="max-w-5xl mx-auto">
@@ -158,65 +157,82 @@ export default function ProductUpload({ initialData, onSuccess }: ProductUploadP
         </div>
 
         <div className="lg:col-span-5 space-y-10">
-       <CldUploadWidget 
+    <CldUploadWidget 
   uploadPreset="shirt_uploads" 
-  onSuccess={(result: any) => setImageUrl(result.info.secure_url)}
+  options={{ 
+    multiple: true, 
+    maxFiles: 5,
+    clientAllowedFormats: ["jpg", "png", "jpeg", "pdf"] 
+  }}
+  onSuccess={(result: any) => {
+    // If it's the first image, set it. If adding more, append with comma
+    setImageUrl(prev => prev ? `${prev},${result.info.secure_url}` : result.info.secure_url);
+  }}
 >
   {({ open }) => (
     <div className="space-y-6 w-full">
-      {/* 1. UPLOAD BOX (Smaller now to make room for gallery) */}
+      {/* 1. UPLOAD BOX */}
       <div 
         onClick={() => open()} 
         className={`bg-surface-container-low p-6 relative min-h-[200px] flex flex-col items-center justify-center border-2 border-dashed transition-all cursor-pointer ${imageUrl ? 'border-green-500/50' : 'border-outline-variant/20 hover:border-primary/40'}`}
       >
         <div className="text-center space-y-2">
           <span className="material-symbols-outlined text-3xl text-primary font-light">
-            {imageUrl ? 'sync' : 'cloud_upload'}
+            {imageUrl ? 'add_photo_alternate' : 'cloud_upload'}
           </span>
           <h3 className="font-serif text-xl italic tracking-tight">
-            {imageUrl ? 'Change Product Archive' : 'Upload Product PDF'}
+            {imageUrl ? 'Add More Assets' : 'Upload Assets'}
           </h3>
           <p className="text-[9px] uppercase tracking-[0.2em] opacity-40">
-            Supports Multi-Page Lookbooks (Up to 5 Views)
+            Supports JPG, PNG or Multi-Page PDF
           </p>
         </div>
       </div>
 
-      {/* 2. DYNAMIC LOOKBOOK PREVIEW (The Solution) */}
+      {/* 2. DYNAMIC PREVIEW GRID */}
       {imageUrl && (
         <div className="space-y-4">
-          <h4 className="text-[10px] tracking-[0.4em] uppercase font-bold text-[#D4AF77]">Extracted Silhouettes</h4>
+          <div className="flex justify-between items-center">
+            <h4 className="text-[10px] tracking-[0.4em] uppercase font-bold text-[#D4AF77]">Archive Preview</h4>
+            <button type="button" onClick={() => setImageUrl("")} className="text-[8px] uppercase font-bold text-red-400 hover:text-red-600 transition-colors">Clear All</button>
+          </div>
           
-          {/* Grid that adjusts based on count */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {[1, 2, 3, 4, 5].map((pageNumber) => (
-              <div 
-                key={pageNumber} 
-                className="relative aspect-[3/4] bg-[#F6F3EE] border border-outline-variant/10 overflow-hidden group"
-              >
-                <img  
-                  src={imageUrl
-                    .replace("/upload/", `/upload/pg_${pageNumber}/`)
-                    .replace(".pdf", ".jpg")
-                  } 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                  alt={`View ${pageNumber}`}
-                  // Optional: hide the box if the PDF page doesn't exist
-                  onError={(e: any) => e.target.parentElement.style.display = 'none'}
-                />
-                
-                {/* Page Label */}
-                <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm border border-black/5 px-2 py-0.5 shadow-sm">
-                  <span className="text-[8px] font-black uppercase tracking-tighter">View 0{pageNumber}</span>
+            {/* Logic: If single PDF, show pages. If Multiple JPGs, show each JPG */}
+            {imageUrl.includes(',') || !imageUrl.toLowerCase().endsWith('.pdf') ? (
+              // Handle Multiple Image Uploads
+              imageUrl.split(',').map((url, index) => (
+                <div key={index} className="relative aspect-[3/4] bg-[#F6F3EE] border border-outline-variant/10 overflow-hidden group">
+                  <img  
+                    src={url.toLowerCase().endsWith(".pdf") ? url.replace(".pdf", ".jpg") : url} 
+                    className="w-full h-full object-cover" 
+                    alt={`Preview ${index + 1}`}
+                  />
+                  <div className="absolute top-2 left-2 bg-white/90 px-2 py-0.5 shadow-sm text-[8px] font-black uppercase">Asset {index + 1}</div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              // Handle Single PDF Multi-page extraction
+              [1, 2, 3, 4, 5].map((pageNumber) => (
+                <div key={pageNumber} className="relative aspect-[3/4] bg-[#F6F3EE] border border-outline-variant/10 overflow-hidden group">
+                  <img  
+                    src={imageUrl.replace("/upload/", `/upload/pg_${pageNumber}/`).replace(".pdf", ".jpg")} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    alt={`View ${pageNumber}`}
+                    onError={(e: any) => e.target.parentElement.style.display = 'none'}
+                  />
+                  <div className="absolute top-2 left-2 bg-white/90 px-2 py-0.5 shadow-sm text-[8px] font-black uppercase">Page 0{pageNumber}</div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}
     </div>
   )}
 </CldUploadWidget>
+
+
 
 
 

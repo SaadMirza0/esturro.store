@@ -121,14 +121,17 @@ const deleteProduct = async (id: number) => {
               <tr key={product.id} className="hover:bg-gray-50/50 transition-colors">
                 <td className="px-6 py-4">
                   <div className="w-12 h-16 bg-gray-100 border border-gray-200 overflow-hidden">
-                    <img
-                      alt={product.name}
-                      className="w-full h-full object-cover"
-                      src={product.image_url?.toLowerCase().endsWith(".pdf") 
-                        ? product.image_url.replace(".pdf", ".jpg") 
-                        : product.image_url
-                      }
-                    />
+                   <img
+  alt={product.name}
+  className="w-full h-full object-cover"
+  src={(() => {
+    const firstImage = product.image_url?.split(',')[0] || "";
+    return firstImage.toLowerCase().endsWith(".pdf") 
+      ? firstImage.replace(".pdf", ".jpg") 
+      : firstImage;
+  })()}
+/>
+
                   </div>
                 </td>
                 <td className="px-6 py-4">
