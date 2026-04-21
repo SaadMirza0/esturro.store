@@ -163,29 +163,61 @@ export default function ProductUpload({ initialData, onSuccess }: ProductUploadP
   onSuccess={(result: any) => setImageUrl(result.info.secure_url)}
 >
   {({ open }) => (
-    <div 
-      onClick={() => open()} 
-      className={`bg-surface-container-low p-8 relative min-h-[500px] flex flex-col items-center justify-center border-2 border-dashed transition-colors cursor-pointer ${imageUrl ? 'border-green-500' : 'border-outline-variant/20 group hover:border-primary/50'}`}
-    >
-      {imageUrl ? (
-        <img 
-          /* 
-             FIX: .replace(".pdf", ".jpg") transforms the PDF into 
-             a high-quality image for the browser to display 
-          */
-          src={imageUrl.toLowerCase().endsWith(".pdf") ? imageUrl.replace(".pdf", ".jpg") : imageUrl} 
-          className="absolute inset-0 w-full h-full object-cover p-2" 
-          alt="Preview"
-        />
-      ) : (
-        <div className="text-center space-y-4">
-          <span className="material-symbols-outlined text-4xl text-primary font-light">cloud_upload</span>
-          <h3 className="font-headline text-2xl italic tracking-tight">Visual Assets</h3>
+    <div className="space-y-6 w-full">
+      {/* 1. UPLOAD BOX (Smaller now to make room for gallery) */}
+      <div 
+        onClick={() => open()} 
+        className={`bg-surface-container-low p-6 relative min-h-[200px] flex flex-col items-center justify-center border-2 border-dashed transition-all cursor-pointer ${imageUrl ? 'border-green-500/50' : 'border-outline-variant/20 hover:border-primary/40'}`}
+      >
+        <div className="text-center space-y-2">
+          <span className="material-symbols-outlined text-3xl text-primary font-light">
+            {imageUrl ? 'sync' : 'cloud_upload'}
+          </span>
+          <h3 className="font-serif text-xl italic tracking-tight">
+            {imageUrl ? 'Change Product Archive' : 'Upload Product PDF'}
+          </h3>
+          <p className="text-[9px] uppercase tracking-[0.2em] opacity-40">
+            Supports Multi-Page Lookbooks (Up to 5 Views)
+          </p>
+        </div>
+      </div>
+
+      {/* 2. DYNAMIC LOOKBOOK PREVIEW (The Solution) */}
+      {imageUrl && (
+        <div className="space-y-4">
+          <h4 className="text-[10px] tracking-[0.4em] uppercase font-bold text-[#D4AF77]">Extracted Silhouettes</h4>
+          
+          {/* Grid that adjusts based on count */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[1, 2, 3, 4, 5].map((pageNumber) => (
+              <div 
+                key={pageNumber} 
+                className="relative aspect-[3/4] bg-[#F6F3EE] border border-outline-variant/10 overflow-hidden group"
+              >
+                <img  
+                  src={imageUrl
+                    .replace("/upload/", `/upload/pg_${pageNumber}/`)
+                    .replace(".pdf", ".jpg")
+                  } 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                  alt={`View ${pageNumber}`}
+                  // Optional: hide the box if the PDF page doesn't exist
+                  onError={(e: any) => e.target.parentElement.style.display = 'none'}
+                />
+                
+                {/* Page Label */}
+                <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm border border-black/5 px-2 py-0.5 shadow-sm">
+                  <span className="text-[8px] font-black uppercase tracking-tighter">View 0{pageNumber}</span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
   )}
 </CldUploadWidget>
+
 
 
           <div className="pt-10">

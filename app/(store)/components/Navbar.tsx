@@ -37,7 +37,7 @@ const SignatureNav = () => {
             className="relative flex items-center justify-center"
           >
             <img
-              src="/logo.png"
+              src="/og-image.png"
               alt="Esturro"
               className="h-12 md:h-24 lg:h-32 w-auto object-contain transition-transform duration-700 group-hover:scale-105 will-change-transform"
             />
@@ -47,7 +47,7 @@ const SignatureNav = () => {
           </motion.div>
         </Link>
 
-        {/* --- 2. DESKTOP NAVIGATION --- */}
+     
         <motion.nav
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -68,7 +68,7 @@ const SignatureNav = () => {
           </button>
         </motion.nav>
 
-        {/* --- 3. MOBILE/TABLET HUB (Lucide Icons) --- */}
+        {/* mobile responsiveness */}
         <div className="flex items-center gap-2 md:gap-4 lg:hidden">
           {/* Shopping Bag Button */}
           <button className="w-10 h-10 md:w-12 md:h-12 bg-[#1C1C19] text-white flex items-center justify-center shadow-xl border border-white/5 active:scale-95 transition-transform">
@@ -95,7 +95,7 @@ const SignatureNav = () => {
         </div>
       </div>
 
-      {/* --- 4. FULL-SCREEN MOBILE OVERLAY --- */}
+     
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div

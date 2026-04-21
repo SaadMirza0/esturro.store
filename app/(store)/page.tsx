@@ -10,7 +10,7 @@ export default function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/Products?limit=6", { cache: "no-store" });
+        const res = await fetch("/api/Products", { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
           setProducts(Array.isArray(data) ? data : []);
