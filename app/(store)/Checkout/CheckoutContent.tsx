@@ -69,7 +69,7 @@ export default function CheckoutContent() {
           );
           window.open(`https://wa.me/923010544620?text=${message}`, "_blank");
         }
-        router.push(`/OrderSuccess`);
+      window.alert("Order Confirmed!! for any help contact on Whatsapp")
       }
     } catch (error) {
       alert("Order failed. Please contact us via WhatsApp.");
