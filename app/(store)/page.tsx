@@ -75,7 +75,7 @@ export default function Home() {
 
 
       {/* latest Arrivals  */}
-   <section className="py-24 lg:py-32 px-4 md:px-12 lg:px-24 bg-[#FCF9F4] overflow-hidden">
+   <section className="py-10 lg:py-32 px-4 md:px-12 lg:px-24 bg-[#FCF9F4] overflow-hidden">
   {/* --- 1. SECTION HEADER --- */}
   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 lg:mb-24 gap-8 lg:gap-12">
     <motion.div
@@ -91,9 +91,6 @@ export default function Home() {
       <h2 className="text-[#1C1C19] text-4xl md:text-7xl font-serif leading-[0.85] tracking-tight">
         Latest <span className="italic font-light text-[#D4AF77]">Arrivals</span>
       </h2>
-      <p className="mt-6 text-[#1C1C19]/60 font-sans text-sm md:text-lg leading-relaxed max-w-md">
-        A curated archive where architectural precision meets premium Giza cotton.
-      </p>
     </motion.div>
 
     <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
