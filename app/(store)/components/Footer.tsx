@@ -47,14 +47,31 @@ export default function SignatureFooter() {
     )
   },
   {
-    name: "TikTok",
-    href: "https://www.tiktok.com/@esturro.shop?_r=1&_t=ZS-95h0OIXVe2W",
-    icon: (
-      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-      </svg>
-    )
-  },
+  name: "TikTok",
+  href: "https://www.tiktok.com/@esturro.shop?_r=1&_t=ZS-95h0OIXVe2W",
+  icon: (
+    <svg 
+      width="36" 
+      height="36" 
+      viewBox="0 0 24 24" 
+      xmlns="http://w3.org"
+    >
+      <path 
+        fill="#EE1D52" 
+        d="M12.53 0v14.16a6.83 6.83 0 1 1-2.17-5.06l.03 3.42a3.42 3.42 0 1 0 1.25 2.61V0h.89z" 
+      />
+      <path 
+        fill="#69C9D0" 
+        d="M23.47 6.42a8.55 8.55 0 0 1-5.18-1.74v12.35a6.83 6.83 0 0 1-13.66 0 6.83 6.83 0 0 1 11.23-5.24V7.75a8.55 8.55 0 0 0 4.1 1.26V6.42z" 
+      />
+      <path 
+        fill="#000000" 
+        d="M12.53 0v16.14a3.41 3.41 0 1 1-3.41-3.41l.03-3.42a6.83 6.83 0 1 0 6.8 6.83V7.75a8.55 8.55 0 0 0 4.52-1.33V2.41a8.55 8.55 0 0 1-4.52 1.33V0h-3.42z" 
+      />
+    </svg>
+  )
+}
+,
   {
     name: "Facebook",
     href: "https://www.facebook.com/share/18H81gmrgR/?mibextid=wwXIfr",

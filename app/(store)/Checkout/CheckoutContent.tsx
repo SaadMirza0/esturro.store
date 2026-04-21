@@ -292,7 +292,7 @@ export default function CheckoutContent() {
       <div className="flex items-center gap-4 pt-8 border-t border-white/10">
         <div className="w-10 h-10 border border-white/20 bg-white/[0.03] flex items-center justify-center font-serif italic text-base text-[#D4AF77]">E</div>
         <p className="text-[8px] tracking-[0.5em] uppercase text-black/30 leading-loose">
-          Hand-Crafted in <span className="text-black/60">Pakistan Atelier</span> <br />
+          Hand-Crafted in <span className="text-black/60">Pakistan Euturro</span> <br />
           <span className="text-[#D4AF77]/60">Certified Signature Quality</span>
         </p>
       </div>
