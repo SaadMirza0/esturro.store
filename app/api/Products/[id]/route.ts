@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 
-// Handle DELETE /api/Products/[id]
+
 export async function DELETE(
   request: Request,
   { params }: { params: { id: string } }
@@ -15,7 +15,7 @@ export async function DELETE(
   }
 }
 
-// Handle PATCH /api/Products/[id]
+
 export async function PATCH(
   request: Request,
   { params }: { params: { id: string } }

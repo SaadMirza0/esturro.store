@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 
-
+// for getting product with options filter
 
 export async function GET(request: Request) {
   try {
@@ -29,12 +29,8 @@ export async function GET(request: Request) {
       query += ` LIMIT ${Number(limit)}`;
     }
 
-    // 1. Execute the query with values
     const result = await sql.query(query, values);
 
-
-
-    // 2. IMPORTANT: Return the WHOLE 'result' object to match your working version
     return NextResponse.json(result, { status: 200 });
 
   } catch (error) {

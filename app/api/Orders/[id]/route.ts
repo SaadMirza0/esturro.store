@@ -2,24 +2,26 @@ import { NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 
 export async function GET(
+//getting id as a string from param (url)
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
     const { id } = await params;
 
-    // Fetch order details by ID
+    //using id and getting it from databse 
     const order = await sql`
       SELECT * FROM orders 
       WHERE id = ${id}
       LIMIT 1
     `;
-
+//checking
     if (!order || order.length === 0) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
     return NextResponse.json(order[0]);
+    
   } catch (error: any) {
     console.error("Order Fetch Error:", error);
     return NextResponse.json({ error: "Failed to fetch order" }, { status: 500 });
@@ -29,20 +31,24 @@ export async function GET(
 
 
 export async function PATCH(
+//getting from parameter (url) id as a string
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
+  // saving id
     const { id } = await params;
-    const body = await request.json();
+    const body = await request.json(); 
+    
 
-    // Fetch existing order to merge updates
+    // getting order and checking
     const existing = await sql`SELECT * FROM orders WHERE id = ${id} LIMIT 1`;
     if (!existing || existing.length === 0) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
     const currentOrder = existing[0];
+    //saving the updates
     const updated = {
       status: body.status ?? currentOrder.status,
       full_name: body.full_name ?? currentOrder.full_name,
@@ -51,7 +57,7 @@ export async function PATCH(
       address: body.address ?? currentOrder.address,
     };
 
-    // Update the record in the database
+    // update the record in the database
     await sql`
       UPDATE orders 
       SET 

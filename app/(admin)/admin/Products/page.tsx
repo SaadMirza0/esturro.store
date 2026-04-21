@@ -10,7 +10,7 @@ const [editingProduct, setEditingProduct] = useState<any>(null);
 
   const fetchProducts = async () => {
     try {
-      // Ensure this path matches your folder name exactly
+  
       const res = await fetch("/api/Products", { cache: 'no-store' });
 
       if (!res.ok) {
@@ -20,7 +20,7 @@ const [editingProduct, setEditingProduct] = useState<any>(null);
       }
 
       const data = await res.json();
-      // Only set if data is an array
+   
       setProducts(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Frontend Fetch Error:", error);
@@ -50,7 +50,7 @@ const deleteProduct = async (id: number) => {
 
   return (
   <>
-  {/* Header Section: Clean & Aligned */}
+ 
   <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 pb-6 border-b border-gray-200">
     <div className="mb-4 md:mb-0">
       <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Inventory Management</h2>
@@ -68,7 +68,7 @@ const deleteProduct = async (id: number) => {
     </button>
   </div>
 
-  {/* Modal: Simple & Accessible */}
+  
   {isOpen && (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div
@@ -101,7 +101,7 @@ const deleteProduct = async (id: number) => {
     </div>
   )}
 
-  {/* Table Container: High Visibility */}
+
   <div className="bg-white border border-gray-200 shadow-sm overflow-hidden">
     <div className="overflow-x-auto">
       <table className="w-full text-left border-collapse">

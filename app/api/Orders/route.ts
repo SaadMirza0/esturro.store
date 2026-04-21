@@ -19,12 +19,12 @@ export async function POST(request: Request) {
       product_name,
       size
     } = body;
-
+//Checking
     if (!full_name || !phone || !address) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Insert into Postgres
+    
     const result = await sql`
       INSERT INTO orders (
         full_name, 
@@ -53,11 +53,11 @@ export async function POST(request: Request) {
       RETURNING id
     `;
 
-    const orderId = result[0].id;
+
+const orderId = result[0].id; //after the query success id is stored
 const nodemailer = require('nodemailer');
 
-
-    // --- EMAIL NOTIFICATION LOGIC ---
+//email notification transporter
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -66,7 +66,7 @@ const nodemailer = require('nodemailer');
       },
     });
 
-    
+    //message temp for admin message on email
     const adminMail = {
       from: `"ESTURRO System" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
@@ -96,7 +96,7 @@ const nodemailer = require('nodemailer');
     };
 
 
-    // 2. Customer Notification (Confirmation)
+// customer email message on email 
     const customerMail = {
       from: '"Esturro Atelier" <saadmirzapak@gmail.com>',
       to: email,
@@ -115,9 +115,9 @@ const nodemailer = require('nodemailer');
       `,
     };
 
-    // Send emails (Await to ensure they send before finishing the response)
-    await transporter.sendMail(adminMail);
-    if (email && email !== "N/A") {
+  
+    await transporter.sendMail(adminMail); //sending mail to admin
+    if (email && email !== "N/A") { //if send to admin then send messaging to customer
       await transporter.sendMail(customerMail);
     }
 
@@ -131,7 +131,9 @@ const nodemailer = require('nodemailer');
 //https://www.tiktok.com/@esturro.shop?_r=1&_t=ZS-95h0OIXVe2W
 //https://www.facebook.com/share/18H81gmrgR/?mibextid=wwXIfr
 //https://www.instagram.com/esturro.store?igsh=MTQxZjh1c3N6NDk4eA%3D%3D&utm_source=qr
-// 3. GET Route for Admin Dashboard
+
+
+//getting orders for admin dashboard 
 export async function GET() {
   try {
     const orders = await sql`SELECT * FROM orders ORDER BY created_at DESC`;
