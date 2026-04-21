@@ -5,11 +5,8 @@ import Link from "next/link";
 import ProductActions from "./ProductActions";
 
 export default function ProductClientPage({ product, relatedProducts }: any) {
-    // 1. DYNAMIC PDF EXTRACTION
-    // We create an array of 5 possible pages from the SINGLE product.image_url
     const allImages = [1, 2, 3, 4, 5].map((page) => {
     if (!product.image_url) return null;
-    
     if (product.image_url.toLowerCase().endsWith(".pdf")) {
         return product.image_url
             .replace("/upload/", `/upload/f_auto,q_auto,pg_${page}/`)
@@ -17,16 +14,14 @@ export default function ProductClientPage({ product, relatedProducts }: any) {
     }
     return page === 1 ? product.image_url : null;
 }).filter(Boolean) as string[];
-
-// 2. State Management
 const [activeImage, setActiveImage] = useState<string>(allImages[0]);
-
-// Reset to first image when product changes (for related product navigation)
 useEffect(() => {
     if (allImages.length > 0) {
         setActiveImage(allImages[0]);
     }
 }, [product.id]);
+
+
 
     const containerVars = {
         visible: { transition: { staggerChildren: 0.1 } }
