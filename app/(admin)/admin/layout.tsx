@@ -18,7 +18,7 @@ export default function AdminLayout({
              Main Content Area 
              lg:ml-64 ensures it starts exactly where the sidebar ends 
           */}
-          <main className="flex-1 lg:ml-64 w-full min-h-screen">
+          <main className="flex-1 lg:ml-72 w-full min-h-screen">
             <div className="p-6 md:p-10 max-w-[1600px] mx-auto">
               {children}
             </div>

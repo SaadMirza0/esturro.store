@@ -1,7 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, Download, MessageCircle, ArrowRight, Printer } from "lucide-react";
+import ShippingReceipt from "../../(admin)/admin/components/Recipt";
 
 export default function OrderSuccessContent() {
     const searchParams = useSearchParams();
@@ -10,6 +12,8 @@ export default function OrderSuccessContent() {
 
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [showReceipt, setShowReceipt] = useState(false);
+    const hasPrinted = useRef(false);
 
     useEffect(() => {
         if (!orderId) return;
@@ -20,6 +24,14 @@ export default function OrderSuccessContent() {
                 if (res.ok) {
                     const data = await res.json();
                     setOrder(data);
+
+                    // Automatically trigger print/download after data is ready
+                    setTimeout(() => {
+                        if (!hasPrinted.current) {
+                            window.print();
+                            hasPrinted.current = true;
+                        }
+                    }, 1500);
                 }
             } catch (err) {
                 console.error("Error fetching order:", err);
@@ -44,8 +56,8 @@ export default function OrderSuccessContent() {
         );
     }
 
-    // Default or Fallback static data if no orderId found
-    const displayId = orderId ? `EST-${orderId.substring(0, 8).toUpperCase()}` : "EST-8823";
+    // Detailed order formatting
+    const displayId = order?.id ? `EST-${order.id.toString().padStart(5, '0')}` : orderId ? `EST-${orderId.substring(0, 5).toUpperCase()}` : "EST-8823";
     const name = order?.full_name || "Valued Client";
     const phone = order?.phone || "N/A";
     const address = order?.address || "N/A";
@@ -163,20 +175,42 @@ export default function OrderSuccessContent() {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.6 }}
-                            className="bg-[#1C1C19] text-white p-8 text-center shadow-xl"
+                            className="bg-[#1C1C19] text-white p-8 text-center shadow-xl print:hidden"
                         >
+                            <div className="w-12 h-12 bg-[#25D366]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <MessageCircle className="text-[#25D366]" size={24} />
+                            </div>
                             <h4 className="font-serif text-xl mb-4 italic">Need Assistance?</h4>
                             <p className="text-white/40 text-[11px] leading-relaxed mb-8 uppercase tracking-widest">
-                                Our concierge is available for any queries regarding your order.
+                                Contact our concierge for any queries regarding your shipment.
                             </p>
 
                             <a
-                                href={`https://wa.me/923000000000?text=Order%20Confirmation%20${displayId}`}
+                                href={`https://wa.me/923010544620?text=Assistance%20needed%20with%20Order%20${displayId}`}
                                 target="_blank"
-                                className="block w-full bg-[#25D366] text-white py-4 text-[10px] tracking-[0.3em] uppercase font-black hover:bg-[#1ebd5b] transition-all transform hover:-translate-y-1"
+                                className="flex items-center justify-center gap-3 w-full bg-[#25D366] text-white py-4 text-[10px] tracking-[0.3em] uppercase font-black hover:bg-[#1ebd5b] transition-all transform hover:-translate-y-1"
                             >
-                                Chat on WhatsApp
+                                <MessageCircle size={14} /> WhatsApp Support
                             </a>
+                        </motion.div>
+
+                        {/* Download Receipt Block */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.65 }}
+                            className="bg-white border border-[#D4AF77]/20 p-8 text-center shadow-sm print:hidden"
+                        >
+                            <h4 className="font-serif text-lg mb-2 text-[#1C1C19]">Offline Record</h4>
+                            <p className="text-[#1C1C19]/40 text-[10px] mb-6 uppercase tracking-widest">
+                                Save your order manifest for your records.
+                            </p>
+                            <button
+                                onClick={() => window.print()}
+                                className="flex items-center justify-center gap-3 w-full border border-[#1C1C19] text-[#1C1C19] py-4 text-[10px] tracking-[0.3em] uppercase font-black hover:bg-[#1C1C19] hover:text-white transition-all"
+                            >
+                                <Download size={14} /> Download PDF
+                            </button>
                         </motion.div>
 
                         {/* Return to Archive */}
@@ -205,6 +239,11 @@ export default function OrderSuccessContent() {
                     </div>
 
                 </div>
+            </div>
+
+            {/* Print-only Receipt Version */}
+            <div className="hidden print:block fixed inset-0 z-[9999] bg-white">
+                {order && <ShippingReceipt order={order} onClose={() => { }} />}
             </div>
         </section>
     );
