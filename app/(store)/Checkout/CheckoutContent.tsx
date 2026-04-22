@@ -67,7 +67,7 @@ export default function CheckoutContent() {
             `*Final Total:* ₨ ${total.toLocaleString()}\n\n` +
             `*Customer:* ${orderData.full_name}`
           );
-          window.open(`https://wa.me/923010544620?text=${message}`, "_blank");
+          window.open(`https://wa.me/923710981701?text=${message}`, "_blank");
         }
       window.alert("Order Confirmed!! for any help contact on Whatsapp")
       }
