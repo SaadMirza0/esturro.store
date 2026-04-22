@@ -20,11 +20,12 @@ export default function ProductClientPage({ product, relatedProducts }: any) {
       });
     }
 
-    // 3. If they are regular images, process them and handle PDF fallback for each
-    return urlArray.map((img) => {
-      const url = img.trim();
-      return url.toLowerCase().endsWith(".pdf") ? url.replace(".pdf", ".jpg") : url;
-    });
+  
+return urlArray.map((img: string) => { // Added : string here
+  const url = img.trim();
+  return url.toLowerCase().endsWith(".pdf") ? url.replace(".pdf", ".jpg") : url;
+});
+
   })().filter(Boolean) as string[];
 
   const [activeImage, setActiveImage] = useState<string>(allImages[0]);

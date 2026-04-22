@@ -23,8 +23,8 @@ export default function ProductUpload({ initialData, onSuccess }: ProductUploadP
   }, [initialData]);
 
   const toggleSize = (size: string) => {
-    setSizes((prev) =>
-      prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
+    setSizes((prev: string[]) =>
+      prev.includes(size) ? prev.filter((s: string) => s !== size) : [...prev, size]
     );
   };
 
@@ -164,10 +164,10 @@ export default function ProductUpload({ initialData, onSuccess }: ProductUploadP
     maxFiles: 5,
     clientAllowedFormats: ["jpg", "png", "jpeg", "pdf"] 
   }}
-  onSuccess={(result: any) => {
-    // If it's the first image, set it. If adding more, append with comma
-    setImageUrl(prev => prev ? `${prev},${result.info.secure_url}` : result.info.secure_url);
-  }}
+ onSuccess={(result: any) => {
+  setImageUrl((prev: string) => prev ? `${prev},${result.info.secure_url}` : result.info.secure_url);
+}}
+
 >
   {({ open }) => (
     <div className="space-y-6 w-full">
@@ -201,7 +201,8 @@ export default function ProductUpload({ initialData, onSuccess }: ProductUploadP
             {/* Logic: If single PDF, show pages. If Multiple JPGs, show each JPG */}
             {imageUrl.includes(',') || !imageUrl.toLowerCase().endsWith('.pdf') ? (
               // Handle Multiple Image Uploads
-              imageUrl.split(',').map((url, index) => (
+              imageUrl.split(',').map((url: string, index: number) => (
+
                 <div key={index} className="relative aspect-[3/4] bg-[#F6F3EE] border border-outline-variant/10 overflow-hidden group">
                   <img  
                     src={url.toLowerCase().endsWith(".pdf") ? url.replace(".pdf", ".jpg") : url} 

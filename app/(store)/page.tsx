@@ -128,7 +128,7 @@ export default function Home() {
     
     // 2. Apply your PDF to JPG logic to that single image
     return firstImage.toLowerCase().endsWith(".pdf")
-      ? firstImage.replace(".pdf", ".jpg")
+      ? firstImage.replace(".pdf", ".jpg","jpeg")
       : firstImage;
   })()}
   alt={product.name}
