@@ -53,7 +53,7 @@ export default function ProductActions({ product }: { product: any }) {
 
         {/* 2. BESPOKE ACTION: WhatsApp Customization (Replaces Buy on WhatsApp) */}
         <a
-          href={`https://wa.me/923010544620?text=${customizationMessage}`}
+          href={`https://wa.me/923710981701?text=${customizationMessage}`}
           target="_blank"
           rel="noopener noreferrer"
           className="w-full bg-gradient-to-r from-[#76592A] to-[#D4AF77] text-white py-6 px-8 text-[10px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-4 transition-all hover:shadow-[0_10px_30px_rgba(118,89,42,0.2)] active:scale-[0.98]"
@@ -80,7 +80,7 @@ export default function ProductActions({ product }: { product: any }) {
 
         {/* 3. INQUIRY ACTION: WhatsApp Information */}
         <a
-          href={`https://wa.me/923010544620?text=${encodeURIComponent(`Hello, I would like more information about the ${product.name}.`)}`}
+          href={`https://wa.me/923710981701?text=${encodeURIComponent(`Hello, I would like more information about the ${product.name}.`)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="w-full border border-[#1C1C19]/10 text-[#1C1C19]/60 py-6 px-8 text-[10px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-4 transition-all hover:bg-[#1C1C19] hover:text-white group"
