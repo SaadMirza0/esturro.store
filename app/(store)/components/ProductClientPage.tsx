@@ -185,11 +185,23 @@ return urlArray.map((img: string) => { // Added : string here
                                 transition={{ delay: idx * 0.1, duration: 0.8 }}
                                 className="bg-white mb-8 shadow-sm overflow-hidden aspect-[3/4]"
                             >
-                                <img
-                                    src={rel.image_url?.replace(".pdf", ".jpg")}
-                                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
-                                    alt={rel.name}
-                                />
+                         <img
+  src={(() => {
+    // 1. Split the string into an array
+    const images = rel.image_url?.split(',') || [];
+    // 2. Get the first image from the array
+    const firstImage = images[0] || ""; 
+    
+    // 3. Now you can safely use string methods
+    return firstImage.toLowerCase().endsWith(".pdf") 
+      ? firstImage.replace(".pdf", ".jpg") 
+      : firstImage;
+  })()}
+  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
+  alt={rel.name}
+/>
+
+
                             </motion.div>
                             <h3 className="text-[10px] tracking-widest uppercase font-bold text-[#1C1C19] mb-1">{rel.name}</h3>
                             <p className="text-sm font-sans font-bold text-[#76592A]">₨{Number(rel.price).toLocaleString()}</p>

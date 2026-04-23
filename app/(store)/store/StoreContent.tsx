@@ -131,11 +131,19 @@ export default function StoreContent() {
                 <Link href={`/product/${product.id}`} className="block">
                   {/* Image Container: Clean architectural frame */}
                   <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6 shadow-sm transition-all duration-700 group-hover:shadow-2xl">
-                    <img
-                      alt={product.name}
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                      src={product.image_url?.toLowerCase().endsWith(".pdf") ? product.image_url.replace(".pdf", ".jpg") : product.image_url}
-                    />
+        <img
+  alt={product.name}
+  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+  src={(() => {
+    const imagesArray = product.image_url?.split(',') || [];
+    const firstImageUrl = imagesArray[0] || "";
+    return firstImageUrl.toLowerCase().endsWith(".pdf") 
+      ? firstImageUrl.replace(".pdf", ".jpg") 
+      : firstImageUrl;
+  })()}
+/>
+
+
 
                     {/* Ghost Border */}
                     <div className="absolute inset-0 border border-[#1C1C19]/[0.05] pointer-events-none" />
