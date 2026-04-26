@@ -10,7 +10,7 @@ export default function ProductActions({ product }: { product: any }) {
 
   // Logic for the Customization WhatsApp message
   const customizationMessage = encodeURIComponent(
-    `Hello, I want to customize this shirt: ${product.name}.`
+    `Hello, I want to customize this shirt: ${product.name} with this id ${product.id}.`
   );
 
   return (

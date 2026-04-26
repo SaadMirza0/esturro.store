@@ -10,7 +10,7 @@ export default function WhatsAppButton() {
       
       {/* 1. PREMIUM PROMPT BANNER */}
       <motion.a
-        href={`https://wa.me/923710981701?text=${encodeURIComponent(`I am interested in buying the Product `)}`}
+        href={`https://wa.me/923710981701?text=${encodeURIComponent(`I am interested in Customize the Shirt !!!! `)}`}
 
         target="_blank"
         rel="noopener noreferrer"
@@ -44,7 +44,7 @@ export default function WhatsAppButton() {
 
       {/* 2. MAIN WHATSAPP BUTTON (Larger & Glowing) */}
       <motion.a
-        href={`https://wa.me/923710981701?text=${encodeURIComponent(`Hi! from Esturro I need help !!! `)}`}
+        href={`https://wa.me/923710981701?text=${encodeURIComponent(`Hi Esturro Store !!  I need help. `)}`}
         target="_blank"
         rel="noopener noreferrer"
         initial={{ scale: 0 }}

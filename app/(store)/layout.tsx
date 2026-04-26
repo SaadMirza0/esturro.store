@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Manrope, Newsreader } from 'next/font/google';
 import "./globals.css";
 import TopSticky from "../(store)/components/TopSticky";
@@ -22,7 +23,7 @@ const newsreader = Newsreader({
 
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://estorro.store'), 
+  metadataBase: new URL('https://estorro.store'),
   title: {
     default: "Estorro | Premium Modern Atelier & Menswear Pakistan",
     template: "%s | Eustorro Atelier"
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
     description: "Architectural precision in every stitch. Discover the SS26 collection of premium men's shirts.",
     siteName: "Eustorro",
     images: [{
-      url: "/og-image.jpg", 
+      url: "/og-image.jpg",
       width: 1200,
       height: 630,
       alt: "Estorro Collection",
@@ -82,17 +83,17 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-[#FCF9F4] text-[#1C1C19] antialiased flex flex-col font-manrope">
         <Analytics />
-       
+        <SpeedInsights />
         <header>
           <TopSticky />
           <Navbar />
         </header>
-  
+
         <main className="flex-grow">
           {children}
         </main>
 
-        <WhatsAppButton/>
+        <WhatsAppButton />
         <Footer />
       </body>
     </html>
