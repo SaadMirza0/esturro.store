@@ -74,6 +74,7 @@ export default function CheckoutContent() {
       }
     } catch (error) {
       alert("Order failed. Please contact us via WhatsApp.");
+      window.open(`https://wa.me/923710981701`, "_self");
     } finally {
       setLoading(false);
     }
