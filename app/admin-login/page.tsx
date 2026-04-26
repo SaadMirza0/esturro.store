@@ -91,22 +91,8 @@ export default function AdminLogin() {
         </form>
       </motion.div>
 
-      {/* Footer Label */}
-      <motion.footer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="mt-8 text-center"
-      >
-        <a
-          href="https://vercel.app"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[10px] tracking-[0.15em] text-black/30 hover:text-[#D4AF77] transition-colors uppercase"
-        >
-          Made by <span className="font-semibold">Saad Mirza</span>
-        </a>
-      </motion.footer>
+  
+     
     </div>
   );
 }
