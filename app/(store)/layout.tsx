@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     }],
   },
   twitter: {
-    card: "icon.png",
+    card: "summary_large_image",
     title: "Estorro | Modern Menswear",
     description: "Premium cotton shirts crafted with architectural precision.",
     images: ["/icon.png"],
