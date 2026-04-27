@@ -19,10 +19,10 @@ export async function DELETE(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> } 
 ) {
   try {
-    const id = params.id;
+    const { id } = await params;
     const body = await request.json();
     
     await sql`
@@ -35,6 +35,8 @@ export async function PATCH(
 
     return NextResponse.json({ message: "Updated Successfully" });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: "Update failed" }, { status: 500 });
   }
 }
+
